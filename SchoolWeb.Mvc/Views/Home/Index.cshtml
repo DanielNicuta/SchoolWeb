@@ -1,8 +1,19 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model SchoolWeb.Application.Contracts.Public.HomeDto
+
+@if (ViewBag.Error is string err)
+{
+    <div class="alert alert-danger">@err</div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (Model is null)
+{
+    <p>No content.</p>
+}
+else
+{
+    <h1>@Model.HeroTitle</h1>
+    @if (!string.IsNullOrWhiteSpace(Model.HeroSubtitle))
+    {
+        <p>@Model.HeroSubtitle</p>
+    }
+}

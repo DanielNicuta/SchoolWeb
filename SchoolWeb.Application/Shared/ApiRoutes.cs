@@ -7,7 +7,7 @@ public static class ApiRoutes
 {
     public static class Public
     {
-        public const string Home = "/api/public/home";
+        public const string Home = "/api/page/home";
         // Add others next: About, Contact, Teachers, etc. based on API README
     }
 

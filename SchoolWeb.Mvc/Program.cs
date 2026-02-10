@@ -1,12 +1,12 @@
 using Microsoft.Extensions.Options;
+using SchoolWeb.Application.Contracts.Public;
 using SchoolWeb.Application.Options;
+using SchoolWeb.Infrastructure.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
-var app = builder.Build();
 
 builder.Services.AddLocalization(options =>
 {
@@ -20,11 +20,22 @@ builder.Services
 
 builder.Services.AddSingleton<IValidateOptions<ApiOptions>, ApiOptionsValidator>();
 
+builder.Services.AddHttpClient<IApiClient, ApiClient>((sp, client) =>
+{
+    var options = sp.GetRequiredService<IOptions<ApiOptions>>().Value;
+
+    client.BaseAddress = new Uri(options.BaseUrl);
+    client.Timeout = TimeSpan.FromSeconds(options.TimeoutSeconds);
+});
+
+builder.Services.AddScoped<IPublicContentClient, PublicContentClient>();
+
+var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

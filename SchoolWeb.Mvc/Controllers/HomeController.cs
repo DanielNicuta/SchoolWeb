@@ -1,31 +1,27 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SchoolWeb.Mvc.Models;
+using SchoolWeb.Application.Contracts.Public;
 
 namespace SchoolWeb.Mvc.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly IPublicContentClient _publicContent;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IPublicContentClient publicContent)
     {
-        _logger = logger;
+        _publicContent = publicContent;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(CancellationToken ct)
     {
-        return View();
-    }
+        var result = await _publicContent.GetHomeAsync(ct);
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        if (!result.IsSuccess)
+        {
+            ViewBag.Error = result.Message ?? "Error loading home page.";
+            return View(model: null);
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(result.Data);
     }
 }
