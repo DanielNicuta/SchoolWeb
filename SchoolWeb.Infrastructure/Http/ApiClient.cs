@@ -6,7 +6,7 @@ using SchoolWeb.Infrastructure.Serialization;
 
 namespace SchoolWeb.Infrastructure.Http;
 
-public sealed class ApiClient : IApiClient
+public class ApiClient : IApiClient
 {
     private readonly HttpClient _http;
     private readonly ILogger<ApiClient> _logger;
