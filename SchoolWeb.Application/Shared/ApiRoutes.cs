@@ -1,27 +1,17 @@
 namespace SchoolWeb.Application.Shared;
 
-/// <summary>
-/// Central place for API endpoints. No stringly-typed URLs scattered around.
-/// </summary>
 public static class ApiRoutes
 {
     public static class Pages
     {
-        // CMS Pages (GET anonymous, PUT admin) — matches API routes: api/page/{pageName}
-        public const string Home = "/api/page/home";
-        public const string Contact = "/api/page/contact";
-        public const string History = "/api/page/history";
-        public const string Mission = "/api/page/mission";
-        public const string Organization = "/api/page/organization";
-        public const string Links = "/api/page/links";
-        public const string Footer = "/api/page/footer";
-        public const string SiteSettings = "/api/page/settings";
+        private const string Base = "/api/page";
+        public static string ByName(string name) => $"{Base}/{name}";
     }
 
     public static class Teachers
     {
-        public const string Base = "/api/teachers";         // GET list, POST create
-        public static string ById(int id) => $"/api/teachers/{id}";
+        public const string Base = "/api/teachers";
+        public static string ById(int id) => $"{Base}/{id}";
     }
 
     public static class Auth

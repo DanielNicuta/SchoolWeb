@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using SchoolWeb.Application.Contracts.Auth;
+using SchoolWeb.Application.Contracts.Pages;
 using SchoolWeb.Application.Contracts.Public;
 using SchoolWeb.Application.Options;
 using SchoolWeb.Infrastructure.Auth;
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddMemoryCache();
+
 
 builder.Services.AddSession(options =>
 {
@@ -44,6 +48,9 @@ builder.Services.AddScoped<IPublicContentClient, PublicContentClient>();
 
 builder.Services.AddScoped<ITokenStore, SessionTokenStore>();
 builder.Services.AddScoped<IAuthClient, AuthClient>();
+
+builder.Services.AddScoped<IPageClient, PageClient>();
+
 
 // Handler for authorized API calls
 builder.Services.AddTransient<ApiAuthHandler>();

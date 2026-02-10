@@ -11,26 +11,26 @@ public sealed class PublicContentClient : IPublicContentClient
     public PublicContentClient(IApiClient api) => _api = api;
 
     public Task<ApiResult<HomeDto>> GetHomeAsync(CancellationToken ct) =>
-        _api.GetAsync<HomeDto>(ApiRoutes.Pages.Home, ct);
+        _api.GetAsync<HomeDto>(ApiRoutes.Pages.ByName(PageNames.Home), ct);
 
     public Task<ApiResult<ContactPageDto>> GetContactAsync(CancellationToken ct) =>
-        _api.GetAsync<ContactPageDto>(ApiRoutes.Pages.Contact, ct);
+        _api.GetAsync<ContactPageDto>(ApiRoutes.Pages.ByName(PageNames.Contact), ct);
 
     public Task<ApiResult<HistoryPageDto>> GetHistoryAsync(CancellationToken ct) =>
-        _api.GetAsync<HistoryPageDto>(ApiRoutes.Pages.History, ct);
+        _api.GetAsync<HistoryPageDto>(ApiRoutes.Pages.ByName(PageNames.History), ct);
 
     public Task<ApiResult<MissionPageDto>> GetMissionAsync(CancellationToken ct) =>
-        _api.GetAsync<MissionPageDto>(ApiRoutes.Pages.Mission, ct);
+        _api.GetAsync<MissionPageDto>(ApiRoutes.Pages.ByName(PageNames.Mission), ct);
 
     public Task<ApiResult<OrganizationPageDto>> GetOrganizationAsync(CancellationToken ct) =>
-        _api.GetAsync<OrganizationPageDto>(ApiRoutes.Pages.Organization, ct);
+        _api.GetAsync<OrganizationPageDto>(ApiRoutes.Pages.ByName(PageNames.Organization), ct);
 
     public Task<ApiResult<LinksPageDto>> GetLinksAsync(CancellationToken ct) =>
-        _api.GetAsync<LinksPageDto>(ApiRoutes.Pages.Links, ct);
+        _api.GetAsync<LinksPageDto>(ApiRoutes.Pages.ByName(PageNames.Links), ct);
 
     public Task<ApiResult<FooterPageDto>> GetFooterAsync(CancellationToken ct) =>
-        _api.GetAsync<FooterPageDto>(ApiRoutes.Pages.Footer, ct);
+        _api.GetAsync<FooterPageDto>(ApiRoutes.Pages.ByName(PageNames.Footer), ct);
 
     public Task<ApiResult<SiteSettingsDto>> GetSiteSettingsAsync(CancellationToken ct) =>
-        _api.GetAsync<SiteSettingsDto>(ApiRoutes.Pages.SiteSettings, ct);
+        _api.GetAsync<SiteSettingsDto>(ApiRoutes.Pages.ByName(PageNames.Settings), ct);
 }

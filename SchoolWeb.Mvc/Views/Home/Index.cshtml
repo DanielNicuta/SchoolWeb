@@ -1,19 +1,12 @@
-﻿@model SchoolWeb.Application.Contracts.Public.HomeDto
+﻿@model SchoolWeb.Application.Contracts.Pages.CmsPageDto
 
-@if (ViewBag.Error is string err)
-{
-    <div class="alert alert-danger">@err</div>
-}
+<h1>@(Model.Title ?? "Home")</h1>
 
-@if (Model is null)
+@if (Model.Content is null || Model.Content.Count == 0)
 {
-    <p>No content.</p>
+    <p>No content configured.</p>
 }
 else
 {
-    <h1>@Model.HeroTitle</h1>
-    @if (!string.IsNullOrWhiteSpace(Model.HeroSubtitle))
-    {
-        <p>@Model.HeroSubtitle</p>
-    }
+    <pre>@System.Text.Json.JsonSerializer.Serialize(Model.Content, new System.Text.Json.JsonSerializerOptions { WriteIndented = true })</pre>
 }

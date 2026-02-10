@@ -1,0 +1,14 @@
+@model SchoolWeb.Application.Contracts.Pages.CmsPageDto?
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        @if (Model?.Content is null)
+        {
+            <span>Footer not configured.</span>
+        }
+        else
+        {
+            <span>@(Model.Title ?? "Footer")</span>
+        }
+    </div>
+</footer>
