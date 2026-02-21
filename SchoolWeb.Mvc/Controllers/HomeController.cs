@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Application.Contracts.Pages;
-using SchoolWeb.Application.Shared;
 
 namespace SchoolWeb.Mvc.Controllers;
 
@@ -12,7 +11,8 @@ public class HomeController : BaseController
 
     public async Task<IActionResult> Index(CancellationToken ct)
     {
-        var result = await _pages.GetPageAsync(PageNames.Home, ct);
+        var result = await _pages.GetHomeAsync(ct);
+
         if (!result.IsSuccess || result.Data is null)
             return HandleFailure(result);
 

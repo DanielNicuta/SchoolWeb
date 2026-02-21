@@ -1,12 +1,5 @@
-﻿@model SchoolWeb.Application.Contracts.Pages.CmsPageDto
+﻿@model SchoolWeb.Application.Contracts.Pages.HomePageResponseDto
 
-<h1>@(Model.Title ?? "Home")</h1>
+<h1>@Model.HeroTitle</h1>
 
-@if (Model.Content is null || Model.Content.Count == 0)
-{
-    <p>No content configured.</p>
-}
-else
-{
-    <pre>@System.Text.Json.JsonSerializer.Serialize(Model.Content, new System.Text.Json.JsonSerializerOptions { WriteIndented = true })</pre>
-}
+<p>@Model.HeroSubtitle</p>

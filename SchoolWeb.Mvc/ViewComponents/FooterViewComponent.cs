@@ -22,7 +22,7 @@ public sealed class FooterViewComponent : ViewComponent
         {
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
 
-            var result = await _pages.GetPageAsync(PageNames.Footer, ct);
+            var result = await _pages.GetFooterAsync(ct);
             return result.IsSuccess ? result.Data : null;
         });
 
