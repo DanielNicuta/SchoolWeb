@@ -25,6 +25,11 @@ public sealed class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(AdminLoginVm vm, CancellationToken ct)
     {
+        foreach (var key in Request.Form.Keys)
+    {
+        Console.WriteLine($"{key} = {Request.Form[key]}");
+    }
+    
         if (!ModelState.IsValid)
             return View(vm);
 
@@ -42,7 +47,7 @@ public sealed class AuthController : Controller
 
         await _tokenStore.SetAsync(new TokenPair(result.Data.AccessToken, result.Data.RefreshToken));
 
-        return RedirectToAction("Index", "Dashboard", new { area = AppConstants.Areas.Admin });
+        return RedirectToRoute("areas", new { area = AppConstants.Areas.Admin, controller = "Dashboard", action = "Index" });
     }
 
     [HttpPost]

@@ -2,24 +2,27 @@
 
 <h1>Admin Login</h1>
 
-<form asp-action="Login" method="post">
+<form asp-area="Admin" asp-controller="Auth" asp-action="Login" method="post">
     @Html.AntiForgeryToken()
 
     <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" autocomplete="username" />
+        <label asp-for="Email" name="Email" class="form-label"></label>
+        <input asp-for="Email" type="email" id="Email" name="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" />
+        <label asp-for="Password" name="Password" class="form-label"></label>
+        <input asp-for="Password" type="password" id="Password" name="Password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
-    <div class="text-danger">
-        @Html.ValidationSummary()
-    </div>
+   @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="text-danger">
+            @Html.ValidationSummary()
+        </div>
+    }
 
     <button class="btn btn-primary" type="submit">Sign in</button>
 </form>

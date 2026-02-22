@@ -50,6 +50,7 @@ builder.Services.AddScoped<ITokenStore, SessionTokenStore>();
 builder.Services.AddScoped<IAuthClient, AuthClient>();
 
 builder.Services.AddScoped<IPageClient, PageClient>();
+builder.Services.AddScoped<IAdminPageClient, AdminPageClient>();
 
 
 // Handler for authorized API calls
