@@ -1,0 +1,19 @@
+@model SchoolWeb.Application.Contracts.Pages.SiteSettingsResponseDto?
+
+@if (Model is not null)
+{
+    <a class="navbar-brand" href="/">
+        @if (!string.IsNullOrWhiteSpace(Model.LogoUrl))
+        {
+            <img src="@Model.LogoUrl" alt="@Model.SiteName" style="height:40px;" />
+        }
+        else
+        {
+            <span>@Model.SiteName</span>
+        }
+    </a>
+}
+else
+{
+    <a class="navbar-brand" href="/">School</a>
+}
