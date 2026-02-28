@@ -1,0 +1,74 @@
+@model SchoolWeb.Application.Contracts.Pages.MissionPageUpdateDto
+
+<h1>Edit Mission Page</h1>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<form asp-area="Admin" asp-controller="Pages" asp-action="Mission" method="post">
+    @Html.AntiForgeryToken()
+
+    <h3>Header</h3>
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    <h3>Content</h3>
+    <div class="mb-3">
+        <label asp-for="IntroHtml" class="form-label"></label>
+        <textarea asp-for="IntroHtml" class="form-control" rows="6"></textarea>
+        <span asp-validation-for="IntroHtml" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="MissionHtml" class="form-label"></label>
+        <textarea asp-for="MissionHtml" class="form-control" rows="10"></textarea>
+        <span asp-validation-for="MissionHtml" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageUrl" class="form-label"></label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    <h3>SEO</h3>
+    <div class="mb-3">
+        <label asp-for="SeoTitle" class="form-label"></label>
+        <input asp-for="SeoTitle" class="form-control" />
+        <span asp-validation-for="SeoTitle" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SeoDescription" class="form-label"></label>
+        <textarea asp-for="SeoDescription" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="SeoDescription" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="OgImageUrl" class="form-label"></label>
+        <input asp-for="OgImageUrl" class="form-control" />
+        <span asp-validation-for="OgImageUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

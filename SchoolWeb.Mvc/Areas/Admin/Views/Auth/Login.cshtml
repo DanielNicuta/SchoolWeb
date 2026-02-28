@@ -2,18 +2,21 @@
 
 <h1>Admin Login</h1>
 
-<form asp-area="Admin" asp-controller="Auth" asp-action="Login" method="post">
+<form asp-area="@SchoolWeb.Application.Shared.AppConstants.Areas.Admin"
+      asp-controller="Auth"
+      asp-action="Login"
+      method="post">
     @Html.AntiForgeryToken()
 
     <div class="mb-3">
-        <label asp-for="Email" name="Email" class="form-label"></label>
-        <input asp-for="Email" type="email" id="Email" name="Email" class="form-control" />
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" type="email" class="form-control" autocomplete="username" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Password" name="Password" class="form-label"></label>
-        <input asp-for="Password" type="password" id="Password" name="Password" class="form-control" />
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 

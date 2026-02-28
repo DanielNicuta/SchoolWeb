@@ -1,52 +1,53 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using SchoolWeb.Application.Contracts.Pages;
+using SchoolWeb.Application.Services.Pages;
 using SchoolWeb.Application.Shared;
 using SchoolWeb.Mvc.Areas.Admin.Infrastructure;
 
 namespace SchoolWeb.Mvc.Areas.Admin.Controllers;
 
 [Area(AppConstants.Areas.Admin)]
-[Authorize(Roles = "Admin")]
+[AdminAuthorize]
 public sealed class PagesController : Controller
 {
-    private readonly IPageClient _pages;         // GET current (public endpoint is ok)
-    private readonly IAdminPageClient _admin;    // PUT update (authorized)
+    private readonly IPageEditorService _editor;
+    private readonly IMemoryCache _cache;
 
-    public PagesController(IPageClient pages, IAdminPageClient admin)
+    public PagesController(IPageEditorService editor, IMemoryCache cache)
     {
-        _pages = pages;
-        _admin = admin;
+        _editor = editor;
+        _cache = cache;
     }
 
-    // GET: /Admin/Pages/Home
     [HttpGet]
     public async Task<IActionResult> Home(CancellationToken ct)
     {
-        var result = await _pages.GetHomeAsync(ct);
+        var result = await _editor.GetHomeEditorAsync(ct);
+
         if (!result.IsSuccess || result.Data is null)
         {
             ModelState.AddApiErrors(result);
-            return View(new HomePageUpdateDto()); // empty fallback
+            return View(new HomePageUpdateDto());
         }
 
-        // Map ResponseDto -> UpdateDto (explicit mapping; no magic)
-        var vm = MapToUpdate(result.Data);
-        return View(vm);
+        return View(result.Data);
     }
 
-    // POST: /Admin/Pages/Home
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Home(HomePageUpdateDto dto, CancellationToken ct)
     {
         if (!ModelState.IsValid)
-            return View(dto);
-
-        var update = await _admin.UpdateHomeAsync(dto, ct);
-        if (!update.IsSuccess || update.Data is null)
         {
-            ModelState.AddApiErrors(update);
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateHomeAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
             return View(dto);
         }
 
@@ -54,36 +55,252 @@ public sealed class PagesController : Controller
         return RedirectToAction(nameof(Home));
     }
 
-    private static HomePageUpdateDto MapToUpdate(HomePageResponseDto src)
+    [HttpGet]
+    public async Task<IActionResult> Footer(CancellationToken ct)
     {
-        return new HomePageUpdateDto
+        var result = await _editor.GetFooterEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
         {
-            HeroTitle = src.HeroTitle,
-            HeroSubtitle = src.HeroSubtitle,
-            HeroButtonText = src.HeroButtonText,
-            HeroButtonUrl = src.HeroButtonUrl,
-            HeroImageUrl = src.HeroImageUrl,
+            ModelState.AddApiErrors(result);
+            return View(new FooterContentUpdateDto());
+        }
 
-            AboutTitle = src.AboutTitle,
-            AboutSubtitle = src.AboutSubtitle,
-            AboutHtml = src.AboutHtml,
-            AboutImageUrl = src.AboutImageUrl,
+        return View(result.Data);
+    }
 
-            Highlight1Title = src.Highlight1Title,
-            Highlight1Text = src.Highlight1Text,
-            Highlight1Icon = src.Highlight1Icon,
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Footer(FooterContentUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
 
-            Highlight2Title = src.Highlight2Title,
-            Highlight2Text = src.Highlight2Text,
-            Highlight2Icon = src.Highlight2Icon,
+        var result = await _editor.UpdateFooterAsync(dto, ct);
 
-            Highlight3Title = src.Highlight3Title,
-            Highlight3Text = src.Highlight3Text,
-            Highlight3Icon = src.Highlight3Icon,
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
 
-            SeoTitle = src.SeoTitle,
-            SeoDescription = src.SeoDescription,
-            OgImageUrl = src.OgImageUrl
-        };
+        _cache.Remove(AppConstants.CacheKeys.Footer);
+
+        TempData["Success"] = "Footer updated.";
+        return RedirectToAction(nameof(Footer));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> SiteSettings(CancellationToken ct)
+    {
+        var result = await _editor.GetSiteSettingsEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
+        {
+            ModelState.AddApiErrors(result);
+            return View(new SiteSettingsUpdateDto());
+        }
+
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SiteSettings(SiteSettingsUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateSiteSettingsAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
+
+        _cache.Remove(AppConstants.CacheKeys.SiteSettings);
+
+        TempData["Success"] = "Settings updated.";
+        return RedirectToAction(nameof(SiteSettings));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Contact(CancellationToken ct)
+    {
+        var result = await _editor.GetContactEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
+        {
+            ModelState.AddApiErrors(result);
+            return View(new ContactPageUpdateDto());
+        }
+
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Contact(ContactPageUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateContactAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
+
+        TempData["Success"] = "Contact page updated.";
+        return RedirectToAction(nameof(Contact));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> History(CancellationToken ct)
+    {
+        var result = await _editor.GetHistoryEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
+        {
+            ModelState.AddApiErrors(result);
+            return View(new HistoryPageUpdateDto());
+        }
+
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> History(HistoryPageUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateHistoryAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
+
+        TempData["Success"] = "History updated.";
+        return RedirectToAction(nameof(History));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Mission(CancellationToken ct)
+    {
+        var result = await _editor.GetMissionEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
+        {
+            ModelState.AddApiErrors(result);
+            return View(new MissionPageUpdateDto());
+        }
+
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Mission(MissionPageUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateMissionAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
+
+        TempData["Success"] = "Mission updated.";
+        return RedirectToAction(nameof(Mission));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Organization(CancellationToken ct)
+    {
+        var result = await _editor.GetOrganizationEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
+        {
+            ModelState.AddApiErrors(result);
+            return View(new OrganizationPageUpdateDto());
+        }
+
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Organization(OrganizationPageUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateOrganizationAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
+
+        TempData["Success"] = "Organization updated.";
+        return RedirectToAction(nameof(Organization));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Links(CancellationToken ct)
+    {
+        var result = await _editor.GetLinksEditorAsync(ct);
+
+        if (!result.IsSuccess || result.Data is null)
+        {
+            ModelState.AddApiErrors(result);
+            return View(new LinksPageUpdateDto());
+        }
+
+        return View(result.Data);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Links(LinksPageUpdateDto dto, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(dto);
+        }
+
+        var result = await _editor.UpdateLinksAsync(dto, ct);
+
+        if (!result.IsSuccess)
+        {
+            ModelState.AddApiErrors(result);
+            return View(dto);
+        }
+
+        TempData["Success"] = "Links updated.";
+        return RedirectToAction(nameof(Links));
     }
 }

@@ -1,0 +1,59 @@
+@model SchoolWeb.Application.Contracts.Pages.FooterContentUpdateDto
+
+<h1>Edit Footer</h1>
+
+@if (TempData["Success"] is string ok)
+{
+    <div class="alert alert-success">@ok</div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<form asp-area="Admin" asp-controller="Pages" asp-action="Footer" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="FooterText" class="form-label"></label>
+        <textarea asp-for="FooterText" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="FooterText" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UsefulLinksJson" class="form-label"></label>
+        <textarea asp-for="UsefulLinksJson" class="form-control" rows="6"></textarea>
+        <span asp-validation-for="UsefulLinksJson" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SocialLinksJson" class="form-label"></label>
+        <textarea asp-for="SocialLinksJson" class="form-control" rows="6"></textarea>
+        <span asp-validation-for="SocialLinksJson" class="text-danger"></span>
+    </div>
+
+    <hr />
+
+    <h3>Newsletter</h3>
+
+    <div class="mb-3">
+        <label asp-for="NewsletterTitle" class="form-label"></label>
+        <input asp-for="NewsletterTitle" class="form-control" />
+        <span asp-validation-for="NewsletterTitle" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NewsletterText" class="form-label"></label>
+        <textarea asp-for="NewsletterText" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="NewsletterText" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

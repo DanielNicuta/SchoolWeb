@@ -2,7 +2,9 @@ using Microsoft.Extensions.Options;
 using SchoolWeb.Application.Contracts.Auth;
 using SchoolWeb.Application.Contracts.Pages;
 using SchoolWeb.Application.Contracts.Public;
+using SchoolWeb.Application.Mapping;
 using SchoolWeb.Application.Options;
+using SchoolWeb.Application.Services.Pages;
 using SchoolWeb.Infrastructure.Auth;
 using SchoolWeb.Infrastructure.Http;
 
@@ -49,6 +51,17 @@ builder.Services.AddScoped<IPublicContentClient, PublicContentClient>();
 builder.Services.AddScoped<ITokenStore, SessionTokenStore>();
 builder.Services.AddScoped<IAuthClient, AuthClient>();
 
+builder.Services.AddScoped<IMapper<HomePageResponseDto, HomePageUpdateDto>, HomePageMapper>();
+builder.Services.AddScoped<IMapper<FooterContentResponseDto, FooterContentUpdateDto>, FooterMapper>();
+builder.Services.AddScoped<IMapper<SiteSettingsResponseDto, SiteSettingsUpdateDto>, SiteSettingsMapper>();
+builder.Services.AddScoped<IMapper<ContactPageResponseDto, ContactPageUpdateDto>, ContactMapper>();
+builder.Services.AddScoped<IMapper<HistoryPageResponseDto, HistoryPageUpdateDto>, HistoryMapper>();
+builder.Services.AddScoped<IMapper<MissionPageResponseDto, MissionPageUpdateDto>, MissionMapper>();
+builder.Services.AddScoped<IMapper<OrganizationPageResponseDto, OrganizationPageUpdateDto>, OrganizationMapper>();
+builder.Services.AddScoped<IMapper<LinksPageResponseDto, LinksPageUpdateDto>, LinksMapper>();
+
+builder.Services.AddScoped<IPageEditorService, PageEditorService>();
+
 builder.Services.AddScoped<IPageClient, PageClient>();
 builder.Services.AddScoped<IAdminPageClient, AdminPageClient>();
 
@@ -84,12 +97,11 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
