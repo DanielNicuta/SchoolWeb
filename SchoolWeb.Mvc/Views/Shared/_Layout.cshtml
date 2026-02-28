@@ -3,7 +3,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SchoolWeb.Mvc</title>
+    @{
+        var seo = ViewData["Seo"] as SchoolWeb.Mvc.ViewModels.SeoViewModel;
+        var pageTitle = !string.IsNullOrWhiteSpace(seo?.Title) ? seo!.Title : ViewData["Title"]?.ToString();
+    }
+    <title>@pageTitle</title>
+
+    @if (!string.IsNullOrWhiteSpace(seo?.Description))
+    {
+        <meta name="description" content="@seo!.Description" />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(seo?.OgImageUrl))
+    {
+        <meta property="og:image" content="@seo!.OgImageUrl" />
+    }
+    @if (!string.IsNullOrWhiteSpace(pageTitle))
+    {
+        <meta property="og:title" content="@pageTitle" />
+    }
+    @if (!string.IsNullOrWhiteSpace(seo?.Description))
+    {
+        <meta property="og:description" content="@seo!.Description" />
+    }
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SchoolWeb.Mvc.styles.css" asp-append-version="true" />

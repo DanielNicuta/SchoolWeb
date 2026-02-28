@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Application.Contracts.Pages;
 using SchoolWeb.Mvc.Infrastructure;
+using SchoolWeb.Mvc.ViewModels;
 
 namespace SchoolWeb.Mvc.Controllers;
 
@@ -29,6 +30,13 @@ public sealed class MissionController : Controller
 
         if (model is null)
             return NotFound();
+
+        this.SetSeo(new SeoViewModel
+        {
+            Title = model.SeoTitle,
+            Description = model.SeoDescription,
+            OgImageUrl = model.OgImageUrl
+        });
 
         return View(model);
     }
