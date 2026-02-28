@@ -7,6 +7,8 @@ using SchoolWeb.Application.Options;
 using SchoolWeb.Application.Services.Pages;
 using SchoolWeb.Infrastructure.Auth;
 using SchoolWeb.Infrastructure.Http;
+using SchoolWeb.Mvc.Infrastructure;
+using SchoolWeb.Mvc.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,8 @@ builder.Services
 
 builder.Services.AddSingleton<IValidateOptions<ApiOptions>, ApiOptionsValidator>();
 
+builder.Services.AddSingleton<IHtmlSanitizerService, HtmlSanitizerService>();
+
 builder.Services.AddHttpClient<IApiClient, ApiClient>((sp, client) =>
 {
     var options = sp.GetRequiredService<IOptions<ApiOptions>>().Value;
@@ -65,6 +69,8 @@ builder.Services.AddScoped<IPageEditorService, PageEditorService>();
 builder.Services.AddScoped<IPageClient, PageClient>();
 builder.Services.AddScoped<IAdminPageClient, AdminPageClient>();
 
+builder.Services.AddScoped<IPublicPageCache, PublicPageCache>();
+
 
 // Handler for authorized API calls
 builder.Services.AddTransient<ApiAuthHandler>();
@@ -88,6 +94,17 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.Use(async (ctx, next) =>
+{
+    ctx.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    ctx.Response.Headers["X-Frame-Options"] = "SAMEORIGIN";
+    ctx.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    ctx.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()";
+
+    await next();
+});
+
 app.UseStaticFiles();
 
 app.UseRouting();

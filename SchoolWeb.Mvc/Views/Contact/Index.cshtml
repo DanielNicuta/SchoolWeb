@@ -1,0 +1,30 @@
+@model SchoolWeb.Application.Contracts.Pages.ContactPageResponseDto
+
+<h1>@Model.Title</h1>
+@if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+{
+    <p>@Model.Subtitle</p>
+}
+
+<hr />
+
+<h3>Contact</h3>
+<ul>
+    @if (!string.IsNullOrWhiteSpace(Model.Address)) { <li><strong>Address:</strong> @Model.Address</li> }
+    @if (!string.IsNullOrWhiteSpace(Model.Phone)) { <li><strong>Phone:</strong> @Model.Phone</li> }
+    @if (!string.IsNullOrWhiteSpace(Model.Email)) { <li><strong>Email:</strong> @Model.Email</li> }
+</ul>
+
+@if (!string.IsNullOrWhiteSpace(Model.InfoHtml))
+{
+    <div class="mt-3">
+        @Html.Raw(HtmlSanitizer.Sanitize(Model.InfoHtml))
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.MapEmbedUrl))
+{
+    <div class="mt-4">
+        <iframe src="@Model.MapEmbedUrl" width="100%" height="350" style="border:0;" loading="lazy"></iframe>
+    </div>
+}

@@ -1,0 +1,17 @@
+@model SchoolWeb.Application.Contracts.Pages.LinksPageResponseDto
+
+<h1>@Model.Title</h1>
+
+@if (!string.IsNullOrWhiteSpace(Model.IntroHtml))
+{
+    <div class="mt-3">
+        @Html.Raw(HtmlSanitizer.Sanitize(Model.IntroHtml))
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.LinksHtml))
+{
+    <div class="mt-3">
+        @Html.Raw(HtmlSanitizer.Sanitize(Model.LinksHtml))
+    </div>
+}

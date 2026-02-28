@@ -1,0 +1,18 @@
+@model SchoolWeb.Application.Contracts.Pages.HistoryPageResponseDto
+
+<h1>@Model.Title</h1>
+@if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+{
+    <p>@Model.Subtitle</p>
+}
+
+<div class="mt-3">
+    @Html.Raw(HtmlSanitizer.Sanitize(Model.ContentHtml))
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.SideImageUrl))
+{
+    <div class="mt-3">
+        <img class="img-fluid" src="@Model.SideImageUrl" alt="History image" />
+    </div>
+}

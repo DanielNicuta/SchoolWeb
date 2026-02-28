@@ -1,0 +1,21 @@
+@model SchoolWeb.Application.Contracts.Pages.OrganizationPageResponseDto
+
+<h1>@Model.Title</h1>
+
+<div class="mt-3">
+    @Html.Raw(HtmlSanitizer.Sanitize(Model.DescriptionHtml))
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.OrgChartImageUrl))
+{
+    <div class="mt-4">
+        <img class="img-fluid" src="@Model.OrgChartImageUrl" alt="Organization chart" />
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.OrgChartFileUrl))
+{
+    <div class="mt-3">
+        <a href="@Model.OrgChartFileUrl" rel="noopener">Download org chart</a>
+    </div>
+}
