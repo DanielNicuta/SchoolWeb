@@ -19,5 +19,10 @@ public static class AppConstants
         public const string Footer = "cache:footer";
 
         public const string Home = "public.home";
+        public const string Contact = "public.contact";
+        public const string History = "public.history";
+        public const string Mission = "public.mission";
+        public const string Organization = "public.organization";
+        public const string Links = "public.links";
     }
 }

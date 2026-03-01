@@ -1,18 +1,82 @@
 @model SchoolWeb.Application.Contracts.Pages.HistoryPageResponseDto
+@inject SchoolWeb.Mvc.Security.IHtmlSanitizerService HtmlSanitizer
 
-<h1>@Model.Title</h1>
-@if (!string.IsNullOrWhiteSpace(Model.Subtitle))
-{
-    <p>@Model.Subtitle</p>
+@{
+    ViewData["Title"] = Model.SeoTitle ?? Model.Title;
 }
 
-<div class="mt-3">
-    @Html.Raw(HtmlSanitizer.Sanitize(Model.ContentHtml))
-</div>
+<section class="inner-hero">
+    <div class="container">
+        <div class="inner-hero-card">
+            <div class="inner-hero-text">
+                <h1 class="inner-hero-title">@Model.Title</h1>
 
-@if (!string.IsNullOrWhiteSpace(Model.SideImageUrl))
-{
-    <div class="mt-3">
-        <img class="img-fluid" src="@Model.SideImageUrl" alt="History image" />
+                @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+                {
+                    <p class="inner-hero-subtitle">@Model.Subtitle</p>
+                }
+            </div>
+        </div>
     </div>
-}
+
+    <!-- Decorative wave (matches your home wave vibe) -->
+    <svg class="inner-hero-wave" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="rgba(33,70,45,.18)"
+              d="M0,140 C240,200 480,100 720,160 C960,220 1200,120 1440,150 L1440,200 L0,200 Z"></path>
+        <path fill="#2e5f3e"
+              d="M0,120 C260,190 520,80 780,140 C1040,200 1260,120 1440,130 L1440,200 L0,200 Z"></path>
+    </svg>
+</section>
+
+<section class="inner-page">
+    <div class="container">
+        <div class="row g-4 align-items-start">
+
+            <div class="col-lg-7">
+                <div class="content-card">
+                    @if (!string.IsNullOrWhiteSpace(Model.ContentHtml))
+                    {
+                        <div class="content-html">
+                            @Html.Raw(Model.ContentHtml)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="content-html">
+                            <p>
+                                Our school has grown alongside Sibiu’s community, adapting to modern education while keeping the values that matter most:
+                                respect, responsibility, and strong learning foundations.
+                            </p>
+                            <p>
+                                We continue to improve year after year — focusing on safety, clarity, and support, so every student can thrive.
+                            </p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="side-card">
+                    @if (!string.IsNullOrWhiteSpace(Model.SideImageUrl))
+                    {
+                        <img class="side-image" src="@Model.SideImageUrl" alt="School in Sibiu" />
+                    }
+                    else
+                    {
+                        <div class="side-placeholder">
+                            <div class="side-placeholder-title">Sibiu • City Center</div>
+                            <div class="side-placeholder-text">
+                                A school rooted in community, built for children’s future.
+                            </div>
+                        </div>
+                    }
+
+                    <div class="side-cta">
+                        <a class="btn-cta" href="/contact">Visit or Contact Us</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

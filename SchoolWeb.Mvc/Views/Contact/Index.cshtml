@@ -1,30 +1,127 @@
 @model SchoolWeb.Application.Contracts.Pages.ContactPageResponseDto
 
-<h1>@Model.Title</h1>
-@if (!string.IsNullOrWhiteSpace(Model.Subtitle))
-{
-    <p>@Model.Subtitle</p>
+@{
+    ViewData["Title"] = Model.SeoTitle ?? Model.Title;
 }
 
-<hr />
+<section class="inner-hero">
+    <div class="container">
+        <div class="inner-hero-card">
+            <h1 class="inner-hero-title">@Model.Title</h1>
 
-<h3>Contact</h3>
-<ul>
-    @if (!string.IsNullOrWhiteSpace(Model.Address)) { <li><strong>Address:</strong> @Model.Address</li> }
-    @if (!string.IsNullOrWhiteSpace(Model.Phone)) { <li><strong>Phone:</strong> @Model.Phone</li> }
-    @if (!string.IsNullOrWhiteSpace(Model.Email)) { <li><strong>Email:</strong> @Model.Email</li> }
-</ul>
-
-@if (!string.IsNullOrWhiteSpace(Model.InfoHtml))
-{
-    <div class="mt-3">
-        @Html.Raw(HtmlSanitizer.Sanitize(Model.InfoHtml))
+            @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+            {
+                <p class="inner-hero-subtitle">@Model.Subtitle</p>
+            }
+        </div>
     </div>
-}
 
-@if (!string.IsNullOrWhiteSpace(Model.MapEmbedUrl))
-{
-    <div class="mt-4">
-        <iframe src="@Model.MapEmbedUrl" width="100%" height="350" style="border:0;" loading="lazy"></iframe>
+    <svg class="inner-hero-wave" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="rgba(33,70,45,.18)"
+              d="M0,140 C240,200 480,100 720,160 C960,220 1200,120 1440,150 L1440,200 L0,200 Z"></path>
+        <path fill="#2e5f3e"
+              d="M0,120 C260,190 520,80 780,140 C1040,200 1260,120 1440,130 L1440,200 L0,200 Z"></path>
+    </svg>
+</section>
+
+<section class="inner-page">
+    <div class="container">
+        <div class="row g-4 align-items-start">
+
+            <!-- LEFT: Info + Contact blocks -->
+            <div class="col-lg-6">
+                <div class="content-card mb-4">
+                    <div class="content-html">
+                        @if (!string.IsNullOrWhiteSpace(Model.InfoHtml))
+                        {
+                            @Html.Raw(Model.InfoHtml)
+                        }
+                        else
+                        {
+                            <p>For questions about admissions, activities, or school documents, please contact us using the details below.</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="contact-box">
+                        <div class="contact-box-title">Address</div>
+                        <div class="contact-box-text">
+                            @(string.IsNullOrWhiteSpace(Model.Address) ? "Sibiu, România" : Model.Address)
+                        </div>
+                    </div>
+
+                    <div class="contact-box">
+                        <div class="contact-box-title">Phone</div>
+                        <div class="contact-box-text">
+                            @if (!string.IsNullOrWhiteSpace(Model.Phone))
+                            {
+                                <a class="contact-link" href="tel:@Model.Phone">@Model.Phone</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not available</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="contact-box">
+                        <div class="contact-box-title">Email</div>
+                        <div class="contact-box-text">
+                            @if (!string.IsNullOrWhiteSpace(Model.Email))
+                            {
+                                <a class="contact-link" href="mailto:@Model.Email">@Model.Email</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Not available</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="contact-box contact-box-cta">
+                        <div class="contact-box-title">Fast help</div>
+                        <div class="contact-box-text">
+                            For urgent topics, call us. For documents, email is best.
+                        </div>
+                        <a class="btn-cta mt-2" href="mailto:@(Model.Email ?? "contact@your-school.ro")">Send Email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Map -->
+            <div class="col-lg-6">
+                <div class="side-card">
+                    <div class="map-title">Find us in Sibiu</div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.MapEmbedUrl))
+                    {
+                        <div class="map-frame-wrap">
+                            <iframe
+                                class="map-frame"
+                                src="@Model.MapEmbedUrl"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="side-placeholder">
+                            <div class="side-placeholder-title">Map is not set</div>
+                            <div class="side-placeholder-text">
+                                Add a Google Maps embed link from Admin → Contact.
+                            </div>
+                        </div>
+                    }
+
+                    <div class="map-note">
+                        Located in the city center for easy access.
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-}
+</section>

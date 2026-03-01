@@ -162,6 +162,8 @@ public sealed class PagesController : Controller
             return View(dto);
         }
 
+        _cache.Remove(AppConstants.CacheKeys.Contact);
+
         TempData["Success"] = "Contact page updated.";
         return RedirectToAction(nameof(Contact));
     }
@@ -196,6 +198,8 @@ public sealed class PagesController : Controller
             ModelState.AddApiErrors(result);
             return View(dto);
         }
+
+        _cache.Remove(AppConstants.CacheKeys.History);
 
         TempData["Success"] = "History updated.";
         return RedirectToAction(nameof(History));
@@ -232,6 +236,8 @@ public sealed class PagesController : Controller
             return View(dto);
         }
 
+        _cache.Remove(AppConstants.CacheKeys.Mission);
+
         TempData["Success"] = "Mission updated.";
         return RedirectToAction(nameof(Mission));
     }
@@ -267,6 +273,8 @@ public sealed class PagesController : Controller
             return View(dto);
         }
 
+        _cache.Remove(AppConstants.CacheKeys.Organization);
+
         TempData["Success"] = "Organization updated.";
         return RedirectToAction(nameof(Organization));
     }
@@ -301,6 +309,8 @@ public sealed class PagesController : Controller
             ModelState.AddApiErrors(result);
             return View(dto);
         }
+
+        _cache.Remove(AppConstants.CacheKeys.Links);
 
         TempData["Success"] = "Links updated.";
         return RedirectToAction(nameof(Links));

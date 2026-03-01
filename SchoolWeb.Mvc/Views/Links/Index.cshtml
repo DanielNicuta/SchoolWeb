@@ -1,17 +1,48 @@
 @model SchoolWeb.Application.Contracts.Pages.LinksPageResponseDto
 
-<h1>@Model.Title</h1>
-
-@if (!string.IsNullOrWhiteSpace(Model.IntroHtml))
-{
-    <div class="mt-3">
-        @Html.Raw(HtmlSanitizer.Sanitize(Model.IntroHtml))
-    </div>
+@{
+    ViewData["Title"] = Model.SeoTitle ?? Model.Title;
 }
 
-@if (!string.IsNullOrWhiteSpace(Model.LinksHtml))
-{
-    <div class="mt-3">
-        @Html.Raw(HtmlSanitizer.Sanitize(Model.LinksHtml))
+<section class="inner-hero">
+    <div class="container">
+        <div class="inner-hero-card">
+            <h1 class="inner-hero-title">@Model.Title</h1>
+        </div>
     </div>
-}
+
+    <svg class="inner-hero-wave" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="rgba(33,70,45,.18)"
+              d="M0,140 C240,200 480,100 720,160 C960,220 1200,120 1440,150 L1440,200 L0,200 Z"></path>
+        <path fill="#2e5f3e"
+              d="M0,120 C260,190 520,80 780,140 C1040,200 1260,120 1440,130 L1440,200 L0,200 Z"></path>
+    </svg>
+</section>
+
+<section class="inner-page">
+    <div class="container">
+
+        @if (!string.IsNullOrWhiteSpace(Model.IntroHtml))
+        {
+            <div class="content-card mb-4">
+                <div class="content-html intro-highlight">
+                    @Html.Raw(Model.IntroHtml)
+                </div>
+            </div>
+        }
+
+        <div class="content-card">
+            <div class="content-html">
+                @if (!string.IsNullOrWhiteSpace(Model.LinksHtml))
+                {
+                    @Html.Raw(Model.LinksHtml)
+                }
+                else
+                {
+                    <p class="text-muted mb-0">No links have been added yet.</p>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

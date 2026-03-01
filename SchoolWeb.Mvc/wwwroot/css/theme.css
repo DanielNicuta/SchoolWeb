@@ -227,3 +227,320 @@ a:hover{ color: var(--brand-green-dark); text-decoration: underline; text-underl
   margin: 0;
   color: rgba(0,0,0,.65);
 }
+
+.site-footer {
+  background: #ffffff;
+  border-top: 3px solid rgba(31, 111, 59, .12);
+}
+
+/* bring columns closer by reducing max width */
+.site-footer .container {
+  max-width: 1080px;
+}
+
+.site-footer .footer-brand {
+  color: var(--green-dark, #15522b);
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.site-footer .footer-title {
+  color: var(--green-dark, #15522b);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.site-footer p,
+.site-footer .text-muted {
+  color: rgba(19, 33, 23, .72) !important;
+}
+
+.site-footer .footer-links a {
+  color: rgba(19, 33, 23, .78);
+  text-decoration: none;
+}
+
+.site-footer .footer-links a:hover {
+  color: var(--green-dark, #15522b);
+  text-decoration: underline;
+}
+
+.site-footer hr {
+  opacity: .12;
+}
+
+.site-footer .footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+/* ===============================
+   INNER PAGES (History/Mission/etc)
+   Safe additions - no breaking changes
+================================= */
+
+.inner-hero{
+  position: relative;
+  padding: 48px 0 0;
+}
+
+.inner-hero-card{
+  background: rgba(232,246,234,.92);
+  border: 1px solid rgba(225,238,228,.95);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 34px 28px;
+}
+
+.inner-hero-title{
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--brand-green-dark);
+}
+
+.inner-hero-subtitle{
+  margin: 10px 0 0;
+  font-size: 1.15rem;
+  color: rgba(0,0,0,.65);
+  max-width: 60ch;
+}
+
+.inner-hero-wave{
+  display:block;
+  width:100%;
+  height:120px;
+  margin-top:-68px; /* touches the hero card like your home */
+}
+
+.inner-page{
+  padding: 22px 0 80px;
+}
+
+.content-card{
+  background: var(--surface);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.05);
+  padding: 26px 22px;
+}
+
+.content-html p{
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: rgba(0,0,0,.74);
+}
+
+.content-html h2, .content-html h3{
+  color: #18301f;
+  font-weight: 900;
+  margin-top: 1.2rem;
+}
+
+.side-card{
+  background: var(--surface);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.05);
+  padding: 18px;
+}
+
+.side-image{
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  display:block;
+}
+
+.side-placeholder{
+  border-radius: 14px;
+  background: var(--pale-green);
+  border: 1px solid rgba(46,95,62,.18);
+  padding: 18px;
+}
+
+.side-placeholder-title{
+  font-weight: 900;
+  color: var(--brand-green-dark);
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+}
+
+.side-placeholder-text{
+  color: rgba(0,0,0,.65);
+  line-height: 1.6;
+}
+
+.side-cta{
+  margin-top: 14px;
+  text-align: center;
+}
+
+/* Mission intro emphasis block */
+.intro-highlight{
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #18301f;
+}
+
+.intro-highlight p{
+  margin-bottom: 0;
+}
+
+/* CTA button */
+.btn-cta{
+  display:inline-block;
+  background:#2e5f3e;
+  color:#fff !important;
+  font-weight:800;
+  padding:12px 18px;
+  border-radius:10px;
+  text-decoration:none !important;
+  box-shadow:0 10px 22px rgba(0,0,0,.08);
+  transition:transform .12s ease, background .12s ease;
+}
+.btn-cta:hover{ background:#21462d; transform:translateY(-1px); }
+
+/* Trust block */
+.org-trust{
+  padding:16px;
+  border-radius:14px;
+  background:rgba(232,246,234,.75);
+  border:1px solid rgba(46,95,62,.15);
+}
+.org-trust h3{
+  margin:0 0 10px;
+  color:#18301f;
+  font-weight:900;
+}
+.org-trust ul{ margin:0; padding-left:18px; }
+.org-trust li{ margin-bottom:8px; color:rgba(0,0,0,.72); }
+
+/* Links grid (used inside LinksHtml from CMS) */
+.links-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 992px){
+  .links-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 576px){
+  .links-grid{ grid-template-columns: 1fr; }
+}
+
+.links-card{
+  background: var(--surface, #fff);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.05);
+  padding: 18px 16px;
+  height: 100%;
+}
+
+.links-card-title{
+  font-weight: 900;
+  color: var(--brand-green-dark, #21462d);
+  margin-bottom: 12px;
+  font-size: 1.05rem;
+}
+
+.links-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.links-item{
+  display: block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(232,246,234,.70);
+  border: 1px solid rgba(46,95,62,.15);
+  color: var(--brand-green-dark, #21462d);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform .12s ease, background .12s ease;
+}
+
+.links-item:hover{
+  background: rgba(46,95,62,.12);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+/* Contact page blocks */
+.contact-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 576px){
+  .contact-grid{ grid-template-columns: 1fr; }
+}
+
+.contact-box{
+  background: rgba(232,246,234,.70);
+  border: 1px solid rgba(46,95,62,.15);
+  border-radius: 14px;
+  padding: 14px 14px;
+}
+
+.contact-box-title{
+  font-weight: 900;
+  color: var(--brand-green-dark, #21462d);
+  margin-bottom: 6px;
+}
+
+.contact-box-text{
+  color: rgba(0,0,0,.72);
+  line-height: 1.55;
+}
+
+.contact-link{
+  color: var(--brand-green-dark, #21462d);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.contact-link:hover{
+  text-decoration: underline;
+}
+
+.contact-box-cta{
+  grid-column: 1 / -1;
+  background: rgba(46,95,62,.10);
+}
+
+/* Map */
+.map-title{
+  font-weight: 900;
+  color: var(--brand-green-dark, #21462d);
+  margin-bottom: 12px;
+}
+
+.map-frame-wrap{
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,.08);
+}
+
+.map-frame{
+  width: 100%;
+  height: 360px;
+  border: 0;
+  display:block;
+}
+
+.map-note{
+  margin-top: 12px;
+  color: rgba(0,0,0,.60);
+  font-size: .95rem;
+}

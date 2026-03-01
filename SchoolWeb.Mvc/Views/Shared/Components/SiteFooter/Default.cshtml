@@ -1,31 +1,22 @@
 @model SchoolWeb.Application.Contracts.Pages.FooterContentResponseDto?
-
 @using System.Text.Json
 
 @{
-    // Will be moved to UseCases
     List<(string Text, string Url)> ParseLinks(string? json)
     {
         var result = new List<(string, string)>();
         if (string.IsNullOrWhiteSpace(json)) return result;
 
-        try
-        {
-            using var doc = JsonDocument.Parse(json);
-            if (doc.RootElement.ValueKind != JsonValueKind.Array) return result;
+        using var doc = JsonDocument.Parse(json);
+        if (doc.RootElement.ValueKind != JsonValueKind.Array) return result;
 
-            foreach (var item in doc.RootElement.EnumerateArray())
-            {
-                var text = item.TryGetProperty("text", out var t) ? t.GetString() : null;
-                var url = item.TryGetProperty("url", out var u) ? u.GetString() : null;
-
-                if (!string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(url))
-                    result.Add((text!, url!));
-            }
-        }
-        catch
+        foreach (var item in doc.RootElement.EnumerateArray())
         {
-            
+            var text = item.TryGetProperty("text", out var t) ? t.GetString() : null;
+            var url = item.TryGetProperty("url", out var u) ? u.GetString() : null;
+
+            if (!string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(url))
+                result.Add((text!, url!));
         }
 
         return result;
@@ -33,96 +24,80 @@
 
     var quickLinks = Model is null ? new List<(string Text, string Url)>() : ParseLinks(Model.UsefulLinksJson);
     var socialLinks = Model is null ? new List<(string Text, string Url)>() : ParseLinks(Model.SocialLinksJson);
-
     var year = DateTime.UtcNow.Year;
-
-    // Fallback links (only used when CMS is empty)
-    var fallbackQuickLinks = new List<(string Text, string Url)>
-    {
-        ("History", "/history"),
-        ("Mission", "/mission"),
-        ("Organization", "/organization"),
-        ("Links", "/links"),
-        ("Contact", "/contact")
-    };
 }
 
-<footer class="site-footer">
-    <div class="container">
-        <div class="row footer-top g-4">
+<footer class="site-footer mt-5 pt-5">
+    <div class="container py-4">
+        <div class="row g-4 align-items-start">
 
-            <!-- Column 1: Brand + Text + Newsletter -->
-            <div class="col-lg-4">
-                <div class="d-flex align-items-center gap-2 mb-2">
-                    <img src="~/images/logo-icon.png" alt="School Logo" style="width:36px;height:36px;" />
-                    <strong class="footer-title mb-0">School Web</strong>
+            <!-- Brand / About -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <img src="~/images/logo-icon.png" alt="School Logo" style="height:34px;" />
+                    <span class="footer-brand">School Web</span>
                 </div>
 
-                @if (!string.IsNullOrWhiteSpace(Model?.FooterText))
-                {
-                    <p class="footer-muted mb-3">@Model!.FooterText</p>
-                }
-                else
-                {
-                    <p class="footer-muted mb-3">
-                        Official school website. News, resources, and useful information for students and parents.
-                    </p>
-                }
+                <p class="text-muted mb-3">
+                    @(string.IsNullOrWhiteSpace(Model?.FooterText)
+                        ? "A safe, supportive school community focused on strong learning, kindness, and real-world skills."
+                        : Model!.FooterText)
+                </p>
 
-                @if (!string.IsNullOrWhiteSpace(Model?.NewsletterTitle))
-                {
-                    <div class="footer-title">@Model!.NewsletterTitle</div>
-                }
-                @if (!string.IsNullOrWhiteSpace(Model?.NewsletterText))
-                {
-                    <p class="footer-muted mb-0">@Model!.NewsletterText</p>
-                }
+                <div class="mt-3">
+                    <div class="fw-bold footer-title" style="font-size:1rem;">@(Model?.NewsletterTitle ?? "Stay Connected")</div>
+                    <div class="text-muted">
+                        @(Model?.NewsletterText ?? "Get school updates, events, and announcements. No spam — only what matters.")
+                    </div>
+                </div>
             </div>
 
-            <!-- Column 2: Quick Links -->
-            <div class="col-lg-4">
+            <!-- Quick Links -->
+            <div class="col-6 col-lg-4">
                 <div class="footer-title">Quick Links</div>
 
-                <div class="footer-links d-flex flex-column">
+                <ul class="list-unstyled footer-links mb-0">
                     @if (quickLinks.Count > 0)
                     {
-                        @foreach (var (text, url) in quickLinks)
+                        foreach (var (text, url) in quickLinks)
                         {
-                            <a href="@url" rel="noopener">@text</a>
+                            <li class="mb-2"><a href="@url" rel="noopener">@text</a></li>
                         }
                     }
                     else
                     {
-                        @foreach (var (text, url) in fallbackQuickLinks)
-                        {
-                            <a href="@url">@text</a>
-                        }
+                        <li class="mb-2"><a href="/history">History</a></li>
+                        <li class="mb-2"><a href="/mission">Mission</a></li>
+                        <li class="mb-2"><a href="/organization">Organization</a></li>
+                        <li class="mb-2"><a href="/links">Links</a></li>
+                        <li class="mb-2"><a href="/contact">Contact</a></li>
                     }
-                </div>
+                </ul>
             </div>
 
-            <!-- Column 3: Social -->
-            <div class="col-lg-4">
+            <!-- Social -->
+            <div class="col-6 col-lg-4">
                 <div class="footer-title">Social</div>
 
                 @if (socialLinks.Count > 0)
                 {
-                    <div class="footer-links d-flex flex-column">
+                    <ul class="list-unstyled footer-links mb-0">
                         @foreach (var (text, url) in socialLinks)
                         {
-                            <a href="@url" rel="noopener">@text</a>
+                            <li class="mb-2"><a href="@url" rel="noopener">@text</a></li>
                         }
-                    </div>
+                    </ul>
                 }
                 else
                 {
-                    <p class="footer-muted mb-0">Add social links from Admin → Footer.</p>
+                    <p class="text-muted mb-0">Add social links from Admin → Footer.</p>
                 }
             </div>
-
         </div>
 
-        <div class="footer-bottom d-flex justify-content-between flex-wrap gap-2">
+        <hr class="my-4" />
+
+        <div class="footer-bottom text-muted small">
             <div>© @year School Web. All rights reserved.</div>
             <div>Built with .NET & Bootstrap.</div>
         </div>
