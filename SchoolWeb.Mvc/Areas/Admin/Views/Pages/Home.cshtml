@@ -1,123 +1,212 @@
 @model SchoolWeb.Application.Contracts.Pages.HomePageUpdateDto
-
-<h1>Edit Home Page</h1>
-
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
+@{
+    ViewData["Title"] = "Edit Home";
 }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="text-danger">
-        @Html.ValidationSummary()
+<div class="admin-card">
+    <div class="admin-card-header">Home Page</div>
+    <div class="admin-card-body">
+
+        <p class="text-muted mb-4">
+            This page is the first impression. Keep it clear and welcoming: one message, one action, one image.
+        </p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger admin-alert" role="alert">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Pages" asp-action="Home" method="post" class="mt-3">
+            @Html.AntiForgeryToken()
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Hero section</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="HeroTitle" class="form-label"></label>
+                            <input asp-for="HeroTitle" class="form-control" />
+                            <span asp-validation-for="HeroTitle" class="text-danger"></span>
+
+                            <div class="mt-3">
+                                <label asp-for="HeroSubtitle" class="form-label"></label>
+                                <textarea asp-for="HeroSubtitle" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="HeroSubtitle" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="HeroImageUrl" class="form-label"></label>
+                            <input asp-for="HeroImageUrl" class="form-control" />
+                            <div class="form-text">Paste a full image URL (recommended 1600×900 or larger).</div>
+                            <span asp-validation-for="HeroImageUrl" class="text-danger"></span>
+
+                            <div class="row g-3 mt-1">
+                                <div class="col-md-6">
+                                    <label asp-for="HeroButtonText" class="form-label"></label>
+                                    <input asp-for="HeroButtonText" class="form-control" />
+                                    <span asp-validation-for="HeroButtonText" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label asp-for="HeroButtonUrl" class="form-label"></label>
+                                    <input asp-for="HeroButtonUrl" class="form-control" />
+                                    <span asp-validation-for="HeroButtonUrl" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">About section</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="AboutTitle" class="form-label"></label>
+                            <input asp-for="AboutTitle" class="form-control" />
+                            <span asp-validation-for="AboutTitle" class="text-danger"></span>
+
+                            <div class="mt-3">
+                                <label asp-for="AboutSubtitle" class="form-label"></label>
+                                <textarea asp-for="AboutSubtitle" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="AboutSubtitle" class="text-danger"></span>
+                            </div>
+
+                            <div class="mt-3">
+                                <label asp-for="AboutImageUrl" class="form-label"></label>
+                                <input asp-for="AboutImageUrl" class="form-control" />
+                                <span asp-validation-for="AboutImageUrl" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label asp-for="AboutHtml" class="form-label"></label>
+                            <textarea asp-for="AboutHtml" class="form-control" rows="10"></textarea>
+                            <div class="form-text">You can use basic HTML (p, ul, li, strong). Avoid huge paragraphs.</div>
+                            <span asp-validation-for="AboutHtml" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Highlights</div>
+                <div class="admin-card-body">
+                    <p class="text-muted">Keep each highlight short: 3–8 words for the title, one sentence for the text.</p>
+
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <div class="border rounded-3 p-3">
+                                <div class="fw-bold mb-2">Highlight 1</div>
+
+                                <label asp-for="Highlight1Title" class="form-label"></label>
+                                <input asp-for="Highlight1Title" class="form-control" />
+                                <span asp-validation-for="Highlight1Title" class="text-danger"></span>
+
+                                <div class="mt-2">
+                                    <label asp-for="Highlight1Text" class="form-label"></label>
+                                    <textarea asp-for="Highlight1Text" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Highlight1Text" class="text-danger"></span>
+                                </div>
+
+                                <div class="mt-2">
+                                    <label asp-for="Highlight1Icon" class="form-label"></label>
+                                    <input asp-for="Highlight1Icon" class="form-control" />
+                                    <div class="form-text">Example: /images/normalized-icon-book.png</div>
+                                    <span asp-validation-for="Highlight1Icon" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="border rounded-3 p-3">
+                                <div class="fw-bold mb-2">Highlight 2</div>
+
+                                <label asp-for="Highlight2Title" class="form-label"></label>
+                                <input asp-for="Highlight2Title" class="form-control" />
+                                <span asp-validation-for="Highlight2Title" class="text-danger"></span>
+
+                                <div class="mt-2">
+                                    <label asp-for="Highlight2Text" class="form-label"></label>
+                                    <textarea asp-for="Highlight2Text" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Highlight2Text" class="text-danger"></span>
+                                </div>
+
+                                <div class="mt-2">
+                                    <label asp-for="Highlight2Icon" class="form-label"></label>
+                                    <input asp-for="Highlight2Icon" class="form-control" />
+                                    <span asp-validation-for="Highlight2Icon" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="border rounded-3 p-3">
+                                <div class="fw-bold mb-2">Highlight 3</div>
+
+                                <label asp-for="Highlight3Title" class="form-label"></label>
+                                <input asp-for="Highlight3Title" class="form-control" />
+                                <span asp-validation-for="Highlight3Title" class="text-danger"></span>
+
+                                <div class="mt-2">
+                                    <label asp-for="Highlight3Text" class="form-label"></label>
+                                    <textarea asp-for="Highlight3Text" class="form-control" rows="3"></textarea>
+                                    <span asp-validation-for="Highlight3Text" class="text-danger"></span>
+                                </div>
+
+                                <div class="mt-2">
+                                    <label asp-for="Highlight3Icon" class="form-label"></label>
+                                    <input asp-for="Highlight3Icon" class="form-control" />
+                                    <span asp-validation-for="Highlight3Icon" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">SEO</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="SeoTitle" class="form-label"></label>
+                            <input asp-for="SeoTitle" class="form-control" data-max="60"/>
+                            <div class="form-text">Recommended: 45–60 characters.</div>
+                            <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="OgImageUrl" class="form-label"></label>
+                            <input asp-for="OgImageUrl" class="form-control" data-max="60"/>
+                            <div class="form-text">Social share image (OpenGraph).</div>
+                            <span asp-validation-for="OgImageUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="SeoDescription" class="form-label"></label>
+                            <textarea asp-for="SeoDescription" class="form-control" rows="3" data-max="160"></textarea>
+                            <div class="form-text">Recommended: 120–160 characters.</div>
+                            <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <partial name="_AdminFormActions"
+                model='new SchoolWeb.Mvc.Areas.Admin.ViewsModel.AdminFormActionsViewModel
+                {
+                    SaveText = "Save",
+                    HelpText = "Changes affect the public website immediately.",
+                    PreviewUrl = "/",
+                    BackUrl = Url.Action("Index","Dashboard", new { area = "Admin" })
+                }' />
+        </form>
+
     </div>
-}
+</div>
 
-<form method="post">
-    @Html.AntiForgeryToken()
-
-    <h3>Hero</h3>
-    <div class="mb-3">
-        <label asp-for="HeroTitle" class="form-label"></label>
-        <input asp-for="HeroTitle" class="form-control" />
-        <span asp-validation-for="HeroTitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HeroSubtitle" class="form-label"></label>
-        <input asp-for="HeroSubtitle" class="form-control" />
-        <span asp-validation-for="HeroSubtitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HeroButtonText" class="form-label"></label>
-        <input asp-for="HeroButtonText" class="form-control" />
-        <span asp-validation-for="HeroButtonText" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HeroButtonUrl" class="form-label"></label>
-        <input asp-for="HeroButtonUrl" class="form-control" />
-        <span asp-validation-for="HeroButtonUrl" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HeroImageUrl" class="form-label"></label>
-        <input asp-for="HeroImageUrl" class="form-control" />
-        <span asp-validation-for="HeroImageUrl" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>About</h3>
-    <div class="mb-3">
-        <label asp-for="AboutTitle" class="form-label"></label>
-        <input asp-for="AboutTitle" class="form-control" />
-        <span asp-validation-for="AboutTitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="AboutSubtitle" class="form-label"></label>
-        <input asp-for="AboutSubtitle" class="form-control" />
-        <span asp-validation-for="AboutSubtitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="AboutHtml" class="form-label"></label>
-        <textarea asp-for="AboutHtml" class="form-control" rows="6"></textarea>
-        <span asp-validation-for="AboutHtml" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="AboutImageUrl" class="form-label"></label>
-        <input asp-for="AboutImageUrl" class="form-control" />
-        <span asp-validation-for="AboutImageUrl" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Highlights</h3>
-
-    <h5>Highlight 1</h5>
-    <div class="mb-3"><label asp-for="Highlight1Title" class="form-label"></label><input asp-for="Highlight1Title" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="Highlight1Text" class="form-label"></label><input asp-for="Highlight1Text" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="Highlight1Icon" class="form-label"></label><input asp-for="Highlight1Icon" class="form-control" /></div>
-
-    <h5>Highlight 2</h5>
-    <div class="mb-3"><label asp-for="Highlight2Title" class="form-label"></label><input asp-for="Highlight2Title" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="Highlight2Text" class="form-label"></label><input asp-for="Highlight2Text" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="Highlight2Icon" class="form-label"></label><input asp-for="Highlight2Icon" class="form-control" /></div>
-
-    <h5>Highlight 3</h5>
-    <div class="mb-3"><label asp-for="Highlight3Title" class="form-label"></label><input asp-for="Highlight3Title" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="Highlight3Text" class="form-label"></label><input asp-for="Highlight3Text" class="form-control" /></div>
-    <div class="mb-3"><label asp-for="Highlight3Icon" class="form-label"></label><input asp-for="Highlight3Icon" class="form-control" /></div>
-
-    <hr />
-
-    <h3>SEO</h3>
-    <div class="mb-3">
-        <label asp-for="SeoTitle" class="form-label"></label>
-        <input asp-for="SeoTitle" class="form-control" />
-        <span asp-validation-for="SeoTitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SeoDescription" class="form-label"></label>
-        <textarea asp-for="SeoDescription" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="SeoDescription" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="OgImageUrl" class="form-label"></label>
-        <input asp-for="OgImageUrl" class="form-control" />
-        <span asp-validation-for="OgImageUrl" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }

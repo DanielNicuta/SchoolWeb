@@ -1,74 +1,88 @@
 @model SchoolWeb.Application.Contracts.Pages.HistoryPageUpdateDto
-
-<h1>Edit History Page</h1>
-
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
+@{
+    ViewData["Title"] = "Edit History";
 }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="text-danger">
-        @Html.ValidationSummary()
+<div class="admin-card">
+    <div class="admin-card-header">History Page</div>
+    <div class="admin-card-body">
+
+        <p class="text-muted mb-4">
+            Write the school story as a timeline: short paragraphs, clear years, and one strong message per section.
+        </p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger admin-alert" role="alert">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Pages" asp-action="History" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Header</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="Title" class="form-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="SideImageUrl" class="form-label"></label>
+                            <input asp-for="SideImageUrl" class="form-control" />
+                            <span asp-validation-for="SideImageUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Content</div>
+                <div class="admin-card-body">
+                    <label asp-for="ContentHtml" class="form-label"></label>
+                    <textarea asp-for="ContentHtml" class="form-control" rows="14"></textarea>
+                    <div class="form-text">Tip: use headings and bullet lists for readability.</div>
+                    <span asp-validation-for="ContentHtml" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">SEO</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="SeoTitle" class="form-label"></label>
+                            <input asp-for="SeoTitle" class="form-control" data-max="60"/>
+                            <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="OgImageUrl" class="form-label"></label>
+                            <input asp-for="OgImageUrl" class="form-control" data-max="60"/>
+                            <span asp-validation-for="OgImageUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="SeoDescription" class="form-label"></label>
+                            <textarea asp-for="SeoDescription" class="form-control" rows="3" data-max="160"></textarea>
+                            <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <partial name="_AdminFormActions"
+                model='new SchoolWeb.Mvc.Areas.Admin.ViewsModel.AdminFormActionsViewModel
+                {
+                    SaveText = "Save",
+                    HelpText = "Changes affect the public website immediately.",
+                    PreviewUrl = "/",
+                    BackUrl = Url.Action("Index","Dashboard", new { area = "Admin" })
+                }' />
+        </form>
     </div>
-}
+</div>
 
-<form asp-area="Admin" asp-controller="Pages" asp-action="History" method="post">
-    @Html.AntiForgeryToken()
-
-    <h3>Header</h3>
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Subtitle" class="form-label"></label>
-        <input asp-for="Subtitle" class="form-control" />
-        <span asp-validation-for="Subtitle" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Content</h3>
-    <div class="mb-3">
-        <label asp-for="ContentHtml" class="form-label"></label>
-        <textarea asp-for="ContentHtml" class="form-control" rows="10"></textarea>
-        <span asp-validation-for="ContentHtml" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SideImageUrl" class="form-label"></label>
-        <input asp-for="SideImageUrl" class="form-control" />
-        <span asp-validation-for="SideImageUrl" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>SEO</h3>
-    <div class="mb-3">
-        <label asp-for="SeoTitle" class="form-label"></label>
-        <input asp-for="SeoTitle" class="form-control" />
-        <span asp-validation-for="SeoTitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SeoDescription" class="form-label"></label>
-        <textarea asp-for="SeoDescription" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="SeoDescription" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="OgImageUrl" class="form-label"></label>
-        <input asp-for="OgImageUrl" class="form-control" />
-        <span asp-validation-for="OgImageUrl" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }

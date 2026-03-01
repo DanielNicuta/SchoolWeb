@@ -89,6 +89,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+    app.UseStatusCodePagesWithReExecute("/Home/StatusCode", "?code={0}");
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }

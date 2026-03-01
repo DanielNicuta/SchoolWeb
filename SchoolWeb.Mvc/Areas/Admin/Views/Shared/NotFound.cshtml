@@ -1,0 +1,27 @@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Not Found";
+}
+
+<div class="admin-error-wrapper text-center py-5">
+
+    <div class="admin-error-code mb-2">
+        404
+    </div>
+
+    <h2 class="fw-bold mb-3">
+        Resource not found
+    </h2>
+
+    <p class="text-muted mb-4">
+        The requested admin resource could not be located.
+    </p>
+
+    <a asp-area="Admin"
+       asp-controller="Dashboard"
+       asp-action="Index"
+       class="btn btn-success">
+        Back to Dashboard
+    </a>
+
+</div>

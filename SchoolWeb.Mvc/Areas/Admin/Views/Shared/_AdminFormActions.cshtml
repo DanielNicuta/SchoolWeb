@@ -1,0 +1,24 @@
+@model SchoolWeb.Mvc.Areas.Admin.ViewsModel.AdminFormActionsViewModel
+
+<div class="admin-actions-bar" data-admin-actions>
+    <div class="d-flex flex-column flex-md-row gap-2 align-items-md-center justify-content-between">
+        <div class="text-muted small">
+            @Model.HelpText
+            <span class="ms-2 admin-dirty-badge d-none" data-admin-dirty>Unsaved changes</span>
+        </div>
+
+        <div class="d-flex gap-2">
+            @if (!string.IsNullOrWhiteSpace(Model.PreviewUrl))
+            {
+                <a class="btn btn-outline-secondary" href="@Model.PreviewUrl" target="_blank" rel="noopener">Preview</a>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.BackUrl))
+            {
+                <a class="btn btn-outline-secondary" href="@Model.BackUrl">Back</a>
+            }
+
+            <button type="submit" class="btn btn-primary px-4">@Model.SaveText</button>
+        </div>
+    </div>
+</div>

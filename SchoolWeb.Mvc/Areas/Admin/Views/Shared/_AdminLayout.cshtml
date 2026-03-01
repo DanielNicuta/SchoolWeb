@@ -1,0 +1,134 @@
+@using Microsoft.AspNetCore.Mvc.ModelBinding
+@{
+    var title = ViewData["Title"] as string ?? "Admin";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@title - Admin</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+
+    <!-- Top bar -->
+    <header class="admin-topbar border-bottom">
+        <div class="container-fluid d-flex align-items-center justify-content-between py-2">
+            <div class="d-flex align-items-center gap-2">
+                <span class="admin-badge">ADMIN</span>
+                <span class="admin-title">School Website</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Home" asp-action="Index" target="_blank" rel="noopener">
+                    View site
+                </a>
+                <form asp-area="Admin" asp-controller="Auth" asp-action="Logout" method="post" class="m-0">
+                    @Html.AntiForgeryToken()
+                     <button type="submit" class="btn btn-sm btn-outline-danger">
+                        Sign out
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid admin-shell">
+        <div class="row g-0">
+
+            <!-- Sidebar -->
+            <aside class="col-12 col-md-3 col-lg-2 admin-sidebar border-end">
+                <nav class="p-3">
+                    <div class="admin-nav-title">Content</div>
+
+                    <a class="admin-nav-link @(IsActive("Dashboard","Index") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                        Dashboard
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","Home") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="Home">
+                        Home
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","History") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="History">
+                        History
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","Mission") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="Mission">
+                        Mission
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","Organization") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="Organization">
+                        Organization
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","Links") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="Links">
+                        Links
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","Contact") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="Contact">
+                        Contact
+                    </a>
+
+                    <div class="admin-nav-title mt-3">Settings</div>
+
+                    <a class="admin-nav-link @(IsActive("Pages","SiteSettings") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="SiteSettings">
+                        Site Settings
+                    </a>
+
+                    <a class="admin-nav-link @(IsActive("Pages","Footer") ? "active" : "")"
+                       asp-area="Admin" asp-controller="Pages" asp-action="Footer">
+                        Footer
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main -->
+            <main class="col-12 col-md-9 col-lg-10 admin-main">
+                <div class="admin-content p-3 p-lg-4">
+
+                    @if (TempData["Success"] is string ok)
+                    {
+                        <div class="alert alert-success admin-alert" role="alert">@ok</div>
+                    }
+
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger admin-alert" role="alert">
+                            @Html.ValidationSummary()
+                        </div>
+                    }
+
+                    @RenderBody()
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+@functions{
+    private bool IsActive(string controller, string action)
+    {
+        var c = (ViewContext.RouteData.Values["controller"]?.ToString()) ?? "";
+        var a = (ViewContext.RouteData.Values["action"]?.ToString()) ?? "";
+        return string.Equals(c, controller, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(a, action, StringComparison.OrdinalIgnoreCase);
+    }
+}

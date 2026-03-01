@@ -1,35 +1,77 @@
 @model SchoolWeb.Mvc.Areas.Admin.Models.AdminLoginVm
+@{
+    ViewData["Title"] = "Admin Login";
+    Layout = "_AdminAuthLayout";
+}
 
-<h1>Admin Login</h1>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-lg-4">
 
-<form asp-area="@SchoolWeb.Application.Shared.AppConstants.Areas.Admin"
-      asp-controller="Auth"
-      asp-action="Login"
-      method="post">
-    @Html.AntiForgeryToken()
+        <div class="admin-card mt-4">
+            <div class="admin-card-header">Admin Login</div>
+            <div class="admin-card-body">
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" type="email" class="form-control" autocomplete="username" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+                <p class="text-muted mb-3">
+                    Sign in to edit the website content.
+                </p>
 
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" type="password" class="form-control" autocomplete="current-password" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger admin-alert" role="alert">
+                        @Html.ValidationSummary()
+                    </div>
+                }
 
-   @if (!ViewData.ModelState.IsValid)
-    {
-        <div class="text-danger">
-            @Html.ValidationSummary()
+                <form asp-area="Admin" asp-controller="Auth" asp-action="Login" method="post" novalidate>
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" type="email" class="form-control" autocomplete="username" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-2">
+                        <label asp-for="Password" class="form-label"></label>
+
+                        <div class="input-group">
+                            <input asp-for="Password" id="adminPassword" type="password" class="form-control" autocomplete="current-password" />
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Show password">
+                                Show
+                            </button>
+                        </div>
+
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-text mb-3">
+                        Use a strong password. Do not share admin credentials.
+                    </div>
+
+                    <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+                </form>
+
+            </div>
         </div>
-    }
 
-    <button class="btn btn-primary" type="submit">Sign in</button>
-</form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        (function () {
+            const input = document.getElementById('adminPassword');
+            const btn = document.getElementById('togglePassword');
+            if (!input || !btn) return;
+
+            btn.addEventListener('click', function () {
+                const isPassword = input.getAttribute('type') === 'password';
+                input.setAttribute('type', isPassword ? 'text' : 'password');
+                btn.textContent = isPassword ? 'Hide' : 'Show';
+                btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+            });
+        })();
+    </script>
 }

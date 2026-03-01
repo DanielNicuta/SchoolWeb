@@ -1,0 +1,70 @@
+@using Microsoft.AspNetCore.Mvc.ModelBinding
+@{
+    var title = ViewData["Title"] as string ?? "Admin";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>@title - Admin</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+
+    <!-- Top bar -->
+    <header class="admin-topbar border-bottom">
+        <div class="container-fluid d-flex align-items-center justify-content-between py-2">
+            <div class="d-flex align-items-center gap-2">
+                <span class="admin-badge">ADMIN</span>
+                <span class="admin-title">School Website</span>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+                <a class="btn btn-sm btn-outline-secondary" asp-area="" asp-controller="Home" asp-action="Index" target="_blank" rel="noopener">
+                    View site
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container admin-shell">
+        <div class="admin-main d-flex justify-content-center">
+            <div class="admin-content p-3 p-lg-4 w-100" style="max-width: 900px;">
+
+                @if (TempData["Success"] is string ok)
+                {
+                    <div class="alert alert-success admin-alert" role="alert">@ok</div>
+                }
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger admin-alert" role="alert">
+                        @Html.ValidationSummary()
+                    </div>
+                }
+
+                @RenderBody()
+
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+@functions{
+    private bool IsActive(string controller, string action)
+    {
+        var c = (ViewContext.RouteData.Values["controller"]?.ToString()) ?? "";
+        var a = (ViewContext.RouteData.Values["action"]?.ToString()) ?? "";
+        return string.Equals(c, controller, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(a, action, StringComparison.OrdinalIgnoreCase);
+    }
+}

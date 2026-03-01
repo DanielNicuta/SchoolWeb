@@ -1,12 +1,42 @@
-<h2>Admin Dashboard</h2>
+@{
+    ViewData["Title"] = "Dashboard";
+}
 
-<ul>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="Home">Edit Home</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="Contact">Edit Contact</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="Footer">Edit Footer</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="SiteSettings">Edit Site Settings</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="History">Edit History</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="Mission">Edit Mission</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="Organization">Edit Organization</a></li>
-    <li><a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Pages" asp-action="Links">Edit Links</a></li>
-</ul>
+<div class="admin-card">
+    <div class="admin-card-header">Dashboard</div>
+    <div class="admin-card-body">
+
+        <p class="text-muted mb-4">
+            Choose a page to edit. Changes are saved immediately to the website content.
+        </p>
+
+        <div class="row g-3">
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-primary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="Home">Edit Home</a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="History">Edit History</a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="Mission">Edit Mission</a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="Organization">Edit Organization</a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="Links">Edit Links</a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="Contact">Edit Contact</a>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="SiteSettings">Site Settings</a>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <a class="btn btn-outline-secondary w-100 py-3" asp-area="Admin" asp-controller="Pages" asp-action="Footer">Footer</a>
+            </div>
+        </div>
+
+    </div>
+</div>

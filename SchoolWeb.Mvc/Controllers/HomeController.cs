@@ -28,7 +28,7 @@ public class HomeController : BaseController
             ttl: TimeSpan.FromMinutes(10));
 
         if (model is null)
-            return NotFound();
+            return View("Error");
 
         this.SetSeo(new SeoViewModel
         {

@@ -1,59 +1,89 @@
 @model SchoolWeb.Application.Contracts.Pages.FooterContentUpdateDto
-
-<h1>Edit Footer</h1>
-
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
+@{
+    ViewData["Title"] = "Edit Footer";
 }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="text-danger">
-        @Html.ValidationSummary()
+<div class="admin-card">
+    <div class="admin-card-header">Footer</div>
+    <div class="admin-card-body">
+
+        <p class="text-muted mb-4">
+            Footer should help visitors quickly: a short trust-building message + important links + official social channels.
+        </p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger admin-alert" role="alert">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Pages" asp-action="Footer" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Footer text</div>
+                <div class="admin-card-body">
+                    <label asp-for="FooterText" class="form-label"></label>
+                    <textarea asp-for="FooterText" class="form-control" rows="4"></textarea>
+                    <div class="form-text">Keep it short and reassuring (1–2 sentences).</div>
+                    <span asp-validation-for="FooterText" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Useful links (JSON)</div>
+                <div class="admin-card-body">
+                    <label asp-for="UsefulLinksJson" class="form-label"></label>
+                    <textarea asp-for="UsefulLinksJson" class="form-control" rows="8" data-json="true"></textarea>
+                    <div class="form-text">
+                        Expected format: [{ "text": "History", "url": "/history" }, { "text": "Contact", "url": "/contact" }]
+                    </div>
+                    <span asp-validation-for="UsefulLinksJson" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Social links (JSON)</div>
+                <div class="admin-card-body">
+                    <label asp-for="SocialLinksJson" class="form-label"></label>
+                    <textarea asp-for="SocialLinksJson" class="form-control" rows="8" data-json="true"></textarea>
+                    <div class="form-text">
+                        Expected format: [{ "text": "Facebook", "url": "https://facebook.com/..." }]
+                    </div>
+                    <span asp-validation-for="SocialLinksJson" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Newsletter text</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="NewsletterTitle" class="form-label"></label>
+                            <input asp-for="NewsletterTitle" class="form-control" />
+                            <span asp-validation-for="NewsletterTitle" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="NewsletterText" class="form-label"></label>
+                            <input asp-for="NewsletterText" class="form-control" />
+                            <span asp-validation-for="NewsletterText" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <partial name="_AdminFormActions"
+                model='new SchoolWeb.Mvc.Areas.Admin.ViewsModel.AdminFormActionsViewModel
+                {
+                    SaveText = "Save",
+                    HelpText = "Changes affect the public website immediately.",
+                    PreviewUrl = "/",
+                    BackUrl = Url.Action("Index","Dashboard", new { area = "Admin" })
+                }' />
+        </form>
     </div>
-}
+</div>
 
-<form asp-area="Admin" asp-controller="Pages" asp-action="Footer" method="post">
-    @Html.AntiForgeryToken()
-
-    <div class="mb-3">
-        <label asp-for="FooterText" class="form-label"></label>
-        <textarea asp-for="FooterText" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="FooterText" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="UsefulLinksJson" class="form-label"></label>
-        <textarea asp-for="UsefulLinksJson" class="form-control" rows="6"></textarea>
-        <span asp-validation-for="UsefulLinksJson" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SocialLinksJson" class="form-label"></label>
-        <textarea asp-for="SocialLinksJson" class="form-control" rows="6"></textarea>
-        <span asp-validation-for="SocialLinksJson" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Newsletter</h3>
-
-    <div class="mb-3">
-        <label asp-for="NewsletterTitle" class="form-label"></label>
-        <input asp-for="NewsletterTitle" class="form-control" />
-        <span asp-validation-for="NewsletterTitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="NewsletterText" class="form-label"></label>
-        <textarea asp-for="NewsletterText" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="NewsletterText" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }

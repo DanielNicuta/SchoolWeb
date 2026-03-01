@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolWeb.Application.Contracts.Auth;
 using SchoolWeb.Application.Shared;

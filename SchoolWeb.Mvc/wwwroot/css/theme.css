@@ -25,9 +25,26 @@ html, body{
   color: var(--text);
 }
 
-/* links */
-a{ color: var(--brand-green); text-decoration: none; }
-a:hover{ color: var(--brand-green-dark); text-decoration: underline; text-underline-offset: 5px; }
+/* Apply green hover to normal links, but NOT to buttons */
+a:not(.btn):hover,
+a:not(.btn):focus {
+  color: var(--green-700);
+}
+
+/* Make button-links keep readable text */
+a.btn,
+a.btn:hover,
+a.btn:focus,
+a.btn:active {
+  text-decoration: none !important;
+}
+
+/* Your main CTA button (example class name) */
+a.btn-cta,
+a.btn-cta:hover,
+a.btn-cta:focus {
+  color: #fff !important;
+}
 
 /* --------------------------------
    NAVBAR (match reference)
@@ -543,4 +560,22 @@ a:hover{ color: var(--brand-green-dark); text-decoration: underline; text-underl
   margin-top: 12px;
   color: rgba(0,0,0,.60);
   font-size: .95rem;
+}
+
+.error-section {
+  padding: 100px 0;
+}
+
+.error-icon {
+  font-size: 64px;
+}
+.error-code {
+  font-size: 96px;
+  font-weight: 800;
+  color: var(--green-800);
+  line-height: 1;
+}
+
+.error-section {
+  padding: 120px 0;
 }

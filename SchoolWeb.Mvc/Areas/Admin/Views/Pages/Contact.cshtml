@@ -1,95 +1,121 @@
 @model SchoolWeb.Application.Contracts.Pages.ContactPageUpdateDto
-
-<h1>Edit Contact Page</h1>
-
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
+@{
+    ViewData["Title"] = "Edit Contact";
 }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="text-danger">
-        @Html.ValidationSummary()
+<div class="admin-card">
+    <div class="admin-card-header">Contact Page</div>
+    <div class="admin-card-body">
+
+        <p class="text-muted mb-4">
+            Make it easy for parents and students to reach the school: clear address, phone, and a helpful note about office hours.
+        </p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger admin-alert" role="alert">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Pages" asp-action="Contact" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Header</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="Title" class="form-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="Subtitle" class="form-label"></label>
+                            <input asp-for="Subtitle" class="form-control" />
+                            <span asp-validation-for="Subtitle" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Contact details</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <label asp-for="Address" class="form-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="Phone" class="form-label"></label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" type="email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Map & info</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="MapEmbedUrl" class="form-label"></label>
+                            <input asp-for="MapEmbedUrl" class="form-control" />
+                            <div class="form-text">Use an embed URL (Google Maps iframe source).</div>
+                            <span asp-validation-for="MapEmbedUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="InfoHtml" class="form-label"></label>
+                            <textarea asp-for="InfoHtml" class="form-control" rows="8"></textarea>
+                            <div class="form-text">Add office hours + where to enter + short guidance.</div>
+                            <span asp-validation-for="InfoHtml" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">SEO</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="SeoTitle" class="form-label"></label>
+                            <input asp-for="SeoTitle" class="form-control" data-max="60" />
+                            <span asp-validation-for="SeoTitle" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="OgImageUrl" class="form-label"></label>
+                            <input asp-for="OgImageUrl" class="form-control"  data-max="60" />
+                            <span asp-validation-for="OgImageUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="SeoDescription" class="form-label"></label>
+                            <textarea asp-for="SeoDescription" class="form-control" rows="3"  data-max="160" ></textarea>
+                            <span asp-validation-for="SeoDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <partial name="_AdminFormActions"
+                model='new SchoolWeb.Mvc.Areas.Admin.ViewsModel.AdminFormActionsViewModel
+                {
+                    SaveText = "Save",
+                    HelpText = "Changes affect the public website immediately.",
+                    PreviewUrl = "/",
+                    BackUrl = Url.Action("Index","Dashboard", new { area = "Admin" })
+                }' />
+        </form>
     </div>
-}
+</div>
 
-<form asp-area="Admin" asp-controller="Pages" asp-action="Contact" method="post">
-    @Html.AntiForgeryToken()
-
-    <h3>Header</h3>
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Subtitle" class="form-label"></label>
-        <input asp-for="Subtitle" class="form-control" />
-        <span asp-validation-for="Subtitle" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Contact Info</h3>
-    <div class="mb-3">
-        <label asp-for="Address" class="form-label"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Phone" class="form-label"></label>
-        <input asp-for="Phone" class="form-control" />
-        <span asp-validation-for="Phone" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" type="email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Map & Content</h3>
-    <div class="mb-3">
-        <label asp-for="MapEmbedUrl" class="form-label"></label>
-        <input asp-for="MapEmbedUrl" class="form-control" />
-        <span asp-validation-for="MapEmbedUrl" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="InfoHtml" class="form-label"></label>
-        <textarea asp-for="InfoHtml" class="form-control" rows="6"></textarea>
-        <span asp-validation-for="InfoHtml" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>SEO</h3>
-    <div class="mb-3">
-        <label asp-for="SeoTitle" class="form-label"></label>
-        <input asp-for="SeoTitle" class="form-control" />
-        <span asp-validation-for="SeoTitle" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="SeoDescription" class="form-label"></label>
-        <textarea asp-for="SeoDescription" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="SeoDescription" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="OgImageUrl" class="form-label"></label>
-        <input asp-for="OgImageUrl" class="form-control" />
-        <span asp-validation-for="OgImageUrl" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }

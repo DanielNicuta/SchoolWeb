@@ -1,105 +1,122 @@
 @model SchoolWeb.Application.Contracts.Pages.SiteSettingsUpdateDto
-
-<h1>Edit Site Settings</h1>
-
-@if (TempData["Success"] is string ok)
-{
-    <div class="alert alert-success">@ok</div>
+@{
+    ViewData["Title"] = "Edit Site Settings";
 }
 
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="text-danger">
-        @Html.ValidationSummary()
+<div class="admin-card">
+    <div class="admin-card-header">Site Settings</div>
+    <div class="admin-card-body">
+
+        <p class="text-muted mb-4">
+            These settings affect the whole website (branding and contact details). Keep them consistent.
+        </p>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger admin-alert" role="alert">
+                @Html.ValidationSummary()
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Pages" asp-action="SiteSettings" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Branding</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-6">
+                            <label asp-for="SiteName" class="form-label"></label>
+                            <input asp-for="SiteName" class="form-control" />
+                            <span asp-validation-for="SiteName" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="DefaultLanguage" class="form-label"></label>
+                            <input asp-for="DefaultLanguage" class="form-control" />
+                            <div class="form-text">Example: ro / en</div>
+                            <span asp-validation-for="DefaultLanguage" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label asp-for="LogoUrl" class="form-label"></label>
+                            <input asp-for="LogoUrl" class="form-control" />
+                            <span asp-validation-for="LogoUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-6">
+                            <label asp-for="FaviconUrl" class="form-label"></label>
+                            <input asp-for="FaviconUrl" class="form-control" />
+                            <span asp-validation-for="FaviconUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Contact</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <label asp-for="ContactEmail" class="form-label"></label>
+                            <input asp-for="ContactEmail" class="form-control" />
+                            <span asp-validation-for="ContactEmail" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="ContactPhone" class="form-label"></label>
+                            <input asp-for="ContactPhone" class="form-control" />
+                            <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="Address" class="form-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Social</div>
+                <div class="admin-card-body">
+                    <div class="row g-3">
+                        <div class="col-lg-4">
+                            <label asp-for="FacebookUrl" class="form-label"></label>
+                            <input asp-for="FacebookUrl" class="form-control" />
+                            <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="YoutubeUrl" class="form-label"></label>
+                            <input asp-for="YoutubeUrl" class="form-control" />
+                            <span asp-validation-for="YoutubeUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="TwitterUrl" class="form-label"></label>
+                            <input asp-for="TwitterUrl" class="form-control" />
+                            <span asp-validation-for="TwitterUrl" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-card mb-3">
+                <div class="admin-card-header">Cookie banner</div>
+                <div class="admin-card-body">
+                    <label asp-for="CookieBannerText" class="form-label"></label>
+                    <textarea asp-for="CookieBannerText" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="CookieBannerText" class="text-danger"></span>
+                </div>
+            </div>
+            <partial name="_AdminFormActions"
+                model='new SchoolWeb.Mvc.Areas.Admin.ViewsModel.AdminFormActionsViewModel
+                {
+                    SaveText = "Save",
+                    HelpText = "Changes affect the public website immediately.",
+                    PreviewUrl = "/",
+                    BackUrl = Url.Action("Index","Dashboard", new { area = "Admin" })
+                }' />
+        </form>
     </div>
-}
+</div>
 
-<form asp-area="Admin" asp-controller="Pages" asp-action="SiteSettings" method="post">
-    @Html.AntiForgeryToken()
-
-    <h3>Branding</h3>
-
-    <div class="mb-3">
-        <label asp-for="SiteName" class="form-label"></label>
-        <input asp-for="SiteName" class="form-control" />
-        <span asp-validation-for="SiteName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="LogoUrl" class="form-label"></label>
-        <input asp-for="LogoUrl" class="form-control" />
-        <span asp-validation-for="LogoUrl" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="FaviconUrl" class="form-label"></label>
-        <input asp-for="FaviconUrl" class="form-control" />
-        <span asp-validation-for="FaviconUrl" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="DefaultLanguage" class="form-label"></label>
-        <input asp-for="DefaultLanguage" class="form-control" />
-        <span asp-validation-for="DefaultLanguage" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Contact</h3>
-
-    <div class="mb-3">
-        <label asp-for="ContactEmail" class="form-label"></label>
-        <input asp-for="ContactEmail" type="email" class="form-control" />
-        <span asp-validation-for="ContactEmail" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="ContactPhone" class="form-label"></label>
-        <input asp-for="ContactPhone" class="form-control" />
-        <span asp-validation-for="ContactPhone" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Address" class="form-label"></label>
-        <textarea asp-for="Address" class="form-control" rows="2"></textarea>
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Social</h3>
-
-    <div class="mb-3">
-        <label asp-for="FacebookUrl" class="form-label"></label>
-        <input asp-for="FacebookUrl" class="form-control" />
-        <span asp-validation-for="FacebookUrl" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="YoutubeUrl" class="form-label"></label>
-        <input asp-for="YoutubeUrl" class="form-control" />
-        <span asp-validation-for="YoutubeUrl" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="TwitterUrl" class="form-label"></label>
-        <input asp-for="TwitterUrl" class="form-control" />
-        <span asp-validation-for="TwitterUrl" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h3>Cookie Banner</h3>
-
-    <div class="mb-3">
-        <label asp-for="CookieBannerText" class="form-label"></label>
-        <textarea asp-for="CookieBannerText" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="CookieBannerText" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }
