@@ -1,0 +1,229 @@
+:root{
+  --brand-green: #2e5f3e;
+  --brand-green-dark: #21462d;
+
+  --pale-green: #e5f3e8;
+  --pale-green-2: #e8f6ea;
+
+  --bg: #f4fbf5;                 /* soft page background like the reference */
+  --surface: #ffffff;
+  --text: #1b1b1b;
+  --muted: #6c757d;
+  --border: #e6efe8;
+
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+
+  --shadow-sm: 0 .25rem .75rem rgba(0,0,0,.06);
+  --shadow-md: 0 .6rem 1.5rem rgba(0,0,0,.10);
+}
+
+html, body{
+  font-family: "Times New Roman", Times, serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* links */
+a{ color: var(--brand-green); text-decoration: none; }
+a:hover{ color: var(--brand-green-dark); text-decoration: underline; text-underline-offset: 5px; }
+
+/* --------------------------------
+   NAVBAR (match reference)
+----------------------------------*/
+.navbar-main{
+  background: rgba(244,251,245,.96);
+  border-bottom: 1px solid rgba(225,238,228,.95);
+  min-height: 74px;
+  padding: 14px 0;
+  box-shadow: none;
+}
+
+/* keep it same on scroll */
+.navbar-main.scrolled{
+  background: rgba(232,246,234,.92) !important;
+}
+
+/* brand */
+.navbar-brand{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  text-decoration:none !important;
+}
+.navbar-brand:hover{ text-decoration:none !important; }
+
+.brand-text{
+  color: var(--brand-green);
+  font-size: 1.55rem;
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+.navbar .nav-link{
+  color: rgba(47,107,63,.82);
+  font-weight: 800;
+  padding: .25rem .25rem;
+  margin: 0 .35rem;
+  background: transparent !important;
+  border-radius: 0;
+  position: relative;
+  transition: color .15s ease;
+}
+
+/* hover now uses active color */
+.navbar .nav-link:hover{
+  color: var(--brand-green-dark);
+  text-decoration: none;
+}
+
+/* active */
+.navbar .nav-link.active,
+.navbar .nav-link[aria-current="page"]{
+  color: var(--brand-green-dark) !important;
+}
+
+/* underline indicator */
+.navbar .nav-link.active::after,
+.navbar .nav-link[aria-current="page"]::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-10px;
+  height:3px;
+  border-radius:999px;
+  background: var(--brand-green);
+}
+/* --------------------------------
+   HERO (full photo + wave)
+----------------------------------*/
+.hero-wrap{
+  position: relative;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.hero-card{
+  position: relative;
+  z-index: 2;              /* keep the card above */
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+/* wave overlaps upward so it "touches" the image */
+.hero-wave{
+  position: relative;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  height: 120px;
+  margin-top: -100px;       /* IMPORTANT: pulls wave up into the image edge */
+}
+
+.hero-photo{
+  height: 520px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* dark overlay for readability */
+.hero-photo::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.22));
+}
+
+/* below hero title section (like reference) */
+.hero-below{
+  text-align:center;
+  padding: 34px 0 6px 0;
+}
+.hero-below h2{
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2c4a2c;
+  letter-spacing: .2px;
+}
+.hero-below .btn-cta{
+  margin-top: 16px;
+}
+
+.hero-card{
+  position: relative;
+  overflow: hidden;
+}
+
+/* --------------------------------
+   BUTTONS (rounded like reference)
+----------------------------------*/
+.btn-cta{
+  display: inline-block;
+  padding: .75rem 1.7rem;
+  border-radius: 999px;
+  background: var(--brand-green);
+  border: 1px solid var(--brand-green);
+  color: #fff !important;
+  font-weight: 800;
+  text-decoration:none !important;
+  box-shadow: 0 .5rem 1.2rem rgba(31,122,31,.22);
+  transition: transform .12s ease, filter .12s ease, background-color .12s ease;
+}
+.btn-cta:hover{
+  background: rgba(207,234,209,.95);
+  border-color: rgba(168,216,173,.9);
+  color: var(--brand-green-dark) !important;
+  text-decoration:none !important;
+}
+.btn-cta:active{ transform: translateY(1px); }
+
+/* --------------------------------
+   HIGHLIGHTS (no fill effect)
+----------------------------------*/
+/* Highlights */
+.highlights{
+  padding: 2.5rem 0 1.5rem;
+}
+
+.highlight-card{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.05);
+  padding: 1.5rem 1.25rem 1.75rem;
+  text-align: center;
+  height: 100%;
+}
+
+.highlight-bubble{
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 1rem;
+  border-radius: 999px;
+  background: var(--pale-green);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(46,95,62,.18);
+}
+
+.highlight-bubble img{
+  width: 54px;     /* you can increase to 64 if you want */
+  height: 54px;
+  object-fit: contain;
+  display: block;
+}
+
+.highlight-card h3{
+  font-size: 1.35rem;
+  margin-bottom: .35rem;
+  color: #18301f;
+}
+
+.highlight-card p{
+  margin: 0;
+  color: rgba(0,0,0,.65);
+}

@@ -17,5 +17,7 @@ public static class AppConstants
     {
         public const string SiteSettings = "cache:siteSettings";
         public const string Footer = "cache:footer";
+
+        public const string Home = "public.home";
     }
 }

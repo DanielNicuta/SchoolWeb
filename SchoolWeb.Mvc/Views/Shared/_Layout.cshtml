@@ -1,12 +1,23 @@
-﻿<!DOCTYPE html>
+﻿@using SchoolWeb.Mvc.ViewModels
+@{
+    var seo = ViewData["Seo"] as SeoViewModel;
+    var pageTitle = !string.IsNullOrWhiteSpace(seo?.Title)
+        ? seo!.Title
+        : (ViewData["Title"]?.ToString() ?? "School Web");
+
+    var hasHero = (ViewData["HasHero"] as bool?) ?? false;
+    var navClass = hasHero ? "navbar-hero" : "navbar-solid";
+
+    var path = (Context.Request.Path.Value ?? "/").ToLowerInvariant();
+    string ActiveExact(string exact) => path == exact ? "active" : "";
+    string ActiveStarts(string startsWith) => path.StartsWith(startsWith) ? "active" : "";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @{
-        var seo = ViewData["Seo"] as SchoolWeb.Mvc.ViewModels.SeoViewModel;
-        var pageTitle = !string.IsNullOrWhiteSpace(seo?.Title) ? seo!.Title : ViewData["Title"]?.ToString();
-    }
     <title>@pageTitle</title>
 
     @if (!string.IsNullOrWhiteSpace(seo?.Description))
@@ -18,47 +29,42 @@
     {
         <meta property="og:image" content="@seo!.OgImageUrl" />
     }
-    @if (!string.IsNullOrWhiteSpace(pageTitle))
-    {
-        <meta property="og:title" content="@pageTitle" />
-    }
-    @if (!string.IsNullOrWhiteSpace(seo?.Description))
-    {
-        <meta property="og:description" content="@seo!.Description" />
-    }
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/theme.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SchoolWeb.Mvc.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container-fluid">
-        @await Component.InvokeAsync("SiteHeader")
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-main sticky-top">
+        <div class="container">
+            @await Component.InvokeAsync("SiteHeader")
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
-        </button>
+            </button>
 
-        <ul class="navbar-nav flex-grow-1">
-            <li class="nav-item"><a class="nav-link text-dark" href="/">Home</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="/history">History</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="/mission">Mission</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="/organization">Organization</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="/links">Links</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="/contact">Contact</a></li>
-        </ul>
-    </div>
-</nav>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            <div id="mainNav" class="collapse navbar-collapse">
+                <!-- centered menu -->
+                <ul class="navbar-nav ms-4 gap-lg-4 align-items-center">
+                    <li class="nav-item"><a class="nav-link @ActiveExact("/")" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link @ActiveStarts("/history")" href="/history">History</a></li>
+                    <li class="nav-item"><a class="nav-link @ActiveStarts("/mission")" href="/mission">Mission</a></li>
+                    <li class="nav-item"><a class="nav-link @ActiveStarts("/organization")" href="/organization">Organization</a></li>
+                    <li class="nav-item"><a class="nav-link @ActiveStarts("/links")" href="/links">Links</a></li>
+                    <li class="nav-item"><a class="nav-link @ActiveStarts("/contact")" href="/contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
 
     @await Component.InvokeAsync("SiteFooter")
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

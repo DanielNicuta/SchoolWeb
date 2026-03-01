@@ -1,5 +1,102 @@
 ﻿@model SchoolWeb.Application.Contracts.Pages.HomePageResponseDto
+@inject SchoolWeb.Mvc.Security.IHtmlSanitizerService HtmlSanitizer
 
-<h1>@Model.HeroTitle</h1>
+@{
+    ViewData["HasHero"] = true;
+}
 
-<p>@Model.HeroSubtitle</p>
+<section class="hero-wrap">
+  <div class="container">
+    <div class="hero-card">
+      <div class="hero-photo" style="background-image:url('@Model.HeroImageUrl');"></div>
+    </div>
+    <svg class="hero-wave" viewBox="0 0 1440 200" preserveAspectRatio="none">
+        <!-- main wave = EXACT same green as button -->
+        <path fill="rgba(229, 243, 232, 1)"
+                d="M0,120 C260,190 520,80 780,140 C1040,200 1260,120 1440,130 L1440,200 L0,200 Z"></path>
+        <!-- subtle depth layer (slightly darker) -->
+        <path fill="rgba(46, 95, 62, 1)"
+                d="M0,140 C240,200 480,100 720,160 C960,220 1200,120 1440,150 L1440,200 L0,200 Z"></path>
+    </svg>
+
+    <div class="hero-below">
+      <h2>@(Model.AboutTitle ?? "About Our Green School")</h2>
+
+      @if (!string.IsNullOrWhiteSpace(Model.HeroButtonText))
+      {
+        <a class="btn-cta" href="@Model.HeroButtonUrl">@Model.HeroButtonText</a>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="highlights">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="highlight-card">
+          <div class="highlight-bubble">
+            <img src="~/images/icon-book.png" alt="">
+          </div>
+          <h3>@Model.Highlight1Title</h3>
+          <p>@Model.Highlight1Text</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="highlight-card">
+          <div class="highlight-bubble">
+            <img src="~/images/icon-target.png" alt="">
+          </div>
+          <h3>@Model.Highlight2Title</h3>
+          <p>@Model.Highlight2Text</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="highlight-card">
+          <div class="highlight-bubble">
+            <img src="~/images/icon-envelope.png" alt="">
+          </div>
+          <h3>@Model.Highlight3Title</h3>
+          <p>@Model.Highlight3Text</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<svg class="wave-divider" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+  <path fill="rgba(207,234,209,.85)"
+        d="M0,32 C240,80 480,0 720,32 C960,64 1200,16 1440,40 L1440,80 L0,80 Z"></path>
+</svg>
+
+@if (!string.IsNullOrWhiteSpace(Model.AboutHtml))
+{
+    <section class="about">
+    <div class="container">
+        <div class="about-card">
+        <div class="row g-0 align-items-stretch">
+            <div class="col-lg-7">
+            <div class="about-inner">
+                <span class="about-eyebrow">Eco • Safe • Curious minds</span>
+                <h2 class="about-title">@Model.AboutTitle</h2>
+                <div class="about-text">
+                @Html.Raw(Model.AboutHtml)
+                </div>
+            </div>
+            </div>
+
+            <div class="col-lg-5">
+            <div class="about-media">
+                @if (!string.IsNullOrWhiteSpace(Model.AboutImageUrl))
+                {
+                <img src="@Model.AboutImageUrl" alt="About image">
+                }
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+}

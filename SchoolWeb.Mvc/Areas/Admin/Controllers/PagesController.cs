@@ -51,6 +51,8 @@ public sealed class PagesController : Controller
             return View(dto);
         }
 
+        _cache.Remove(AppConstants.CacheKeys.Home);
+
         TempData["Success"] = "Saved.";
         return RedirectToAction(nameof(Home));
     }
